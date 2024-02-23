@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button class="clickbtn">鼠标点击事件</button>
+  <button class="enterbtn">鼠标经过事件</button>
+  <button class="leavebtn">鼠标离开事件</button>
+
+  <input type="text" value="焦点事件" class="pointinp">
+
+  <input type="text" value="键盘事件" class="keyboardinp">
+
+  <input type="text" value="表单输入事件input" class="forminp">
+
+  <script>
+    // 鼠标事件
+    const clickbtn = document.querySelector('.clickbtn')
+    const enterbtn = document.querySelector('.enterbtn')
+    const leavebtn = document.querySelector('.leavebtn')
+    clickbtn.addEventListener('click', ()=>{
+      console.log('click')
+    })
+    enterbtn.addEventListener('mouseenter', ()=>{
+      console.log('mouseenter')
+    })
+    leavebtn.addEventListener('mouseleave', ()=>{
+      console.log('mouseleave')
+    })
+
+    // 焦点事件
+    const pointinp = document.querySelector('.pointinp')
+    pointinp.addEventListener('focus', ()=>{
+      console.log('focus')
+    })
+    pointinp.addEventListener('blur', ()=>{
+      console.log('blur')
+    })
+
+    // 键盘事件
+    const keyboardinp = document.querySelector('.keyboardinp')
+    keyboardinp.addEventListener('keydown', ()=>{
+      console.log('keydown')
+    })
+    keyboardinp.addEventListener('keyup', ()=>{
+      console.log('keyup')
+    })
+
+    // 表单输入事件input
+    const forminp = document.querySelector('.forminp')
+    forminp.addEventListener('input', ()=>{
+      console.log('input')
+    })
+  </script>
+</body>
+</html>

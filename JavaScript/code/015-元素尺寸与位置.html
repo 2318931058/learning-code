@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      height: 1000px;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: -30px;
+      left: 0;
+      width: 100%;
+      height: 30px;
+      background-color: purple;
+      transition: all 1s;
+      text-align: center;
+      line-height: 30px;
+      font-size: 20px;
+      color: white;
+    }
+
+    main .foods{
+      width: 100%;
+      height: 200px;
+      margin: 50px 20px;
+      background-color: pink;
+      text-align: center;
+      line-height: 200px;
+      font-size: 20px;
+      color: white;
+      box-sizing: border-box;
+      padding: 10px;
+      border: 2px dotted red;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>导航栏</nav>
+
+  <main>
+    <div class="foods">食物区</div>
+  </main>
+
+  <script>
+    const nav = document.querySelector('nav')
+    const foods = document.querySelector('.foods')
+    window.addEventListener('scroll', function () {
+      // document.documentElement.scrollTop获取的是html（距离顶部）滚动的距离
+      const n = document.documentElement.scrollTop
+      // dom.offsetTop获取的是dom对象距离页面顶部的距离
+      if (n >= foods.offsetTop) {
+        nav.style.top = 0
+      } else {
+        nav.style.top = `${-foods.offsetTop}px`
+      }
+
+      console.log('滚轮距离顶部距离', document.documentElement.scrollTop)
+      console.log('DOM对象距离顶部距离', foods.offsetTop)
+      console.log('只包含padding的dom对象的可见部分的高度', foods.clientHeight)
+      console.log('包含所有的dom对象自身的高度', foods.offsetHeight)
+      console.log('返回元素大小及其相对于视口的位置', foods.getBoundingClientRect())
+      
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body,
+    html {
+      height: 1000px;
+      padding: 0;
+      margin: 0 auto;
+      scroll-behavior: smooth;
+    }
+
+    nav {
+      position: fixed;
+      top: -30px;
+      left: 0;
+      width: 80%;
+      height: 30px;
+      background-color: purple;
+      transition: all 0.3s;
+      text-align: center;
+      line-height: 30px;
+      font-size: 20px;
+      color: white;
+      padding: 10px;
+    }
+
+    main .foods,
+    .clothes,
+    .games {
+      width: 80%;
+      height: 200px;
+      margin: 50px 20px;
+      background-color: pink;
+      text-align: center;
+      line-height: 200px;
+      font-size: 20px;
+      color: white;
+      box-sizing: border-box;
+      padding: 10px;
+      border: 2px dotted red;
+    }
+
+    aside {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 10px;
+      position: fixed;
+      right: 150px;
+      top: 200px;
+
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    #top {
+      opacity: 0;
+      transition: all 0.5s;
+    }
+
+    .active {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>导航栏</nav>
+
+  <main>
+    <div class="foods">食物区</div>
+    <div class="clothes">衣柜区</div>
+    <div class="games">游戏区</div>
+  </main>
+
+  <aside>
+    <div><a href="JavaScript:;" data-name="foods">食物区</a></div>
+    <div><a href="JavaScript:;" data-name="clothes">衣柜区</a></div>
+    <div><a href="JavaScript:;" data-name="games">游戏区</a></div>
+    <div><a href="JavaScript:;" id="top">返回顶部</a></div>
+  </aside>
+
+  <script>
+
+
+    // 功能一：页面滚动：顶部导航栏的显示与隐藏
+    const nav = document.querySelector('nav')
+    const main = document.querySelector('main')
+    window.addEventListener('scroll', function () {
+      const scrollDistance = document.documentElement.scrollTop
+      if (scrollDistance >= main.offsetTop) {
+        nav.style.top = 0
+        document.querySelector('#top').style.opacity = 1
+      } else {
+        nav.style.top = `${-main.offsetTop}px`
+        document.querySelector('#top').style.opacity = 0
+      }
+
+    })
+
+
+
+    // 功能二：点击小盒子跳转至对应大盒子
+    function removeActive() {
+      const isActive = document.querySelector('aside .active')
+      if (isActive) {
+        isActive.classList.remove('active')
+      }
+    }
+    const aside = document.querySelector('aside')
+    aside.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A' && e.target.dataset.name) {
+        removeActive()
+        e.target.classList.add('active')
+        const domTop = document.querySelector(`.${e.target.dataset.name}`).offsetTop
+        document.documentElement.scrollTop = domTop
+      } else if (e.target.dataset.name === undefined) {
+        removeActive()
+        window.scrollTo(0, 0)
+      }
+    })
+
+
+    // 功能三：滑动至大盒子，对应小盒子高亮
+    window.addEventListener('scroll', function () {
+      const scrollDistance = document.documentElement.scrollTop
+      const foods = document.querySelector('.foods')
+      const clothes = document.querySelector('.clothes')
+      const games = document.querySelector('.games')
+      console.log(scrollDistance)
+      console.log(foods.offsetTop)
+      console.log(scrollDistance >= foods.offsetTop && scrollDistance < clothes.offsetTop)
+      if (scrollDistance >= foods.offsetTop && scrollDistance < clothes.offsetTop) {
+        removeActive()
+        document.querySelector('[data-name=foods]').classList.add('active')
+      } else if (scrollDistance >= clothes.offsetTop && scrollDistance < games.offsetTop) {
+        removeActive()
+        document.querySelector('[data-name=clothes]').classList.add('active')
+      } else if (scrollDistance >= games.offsetTop) {
+        removeActive()
+        document.querySelector('[data-name=games]').classList.add('active')
+      }
+    })
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>

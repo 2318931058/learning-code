@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        1. 重复：
+            （1）'string'.repeat(number)    作用：使string重复number次（不改变原字符串，返回一个新字符串）
+        2. 合并:
+            （1）String1.concat(String2)    作用：合并两个/多个字符串，并返回一个新字符串（不改变原字符串）
+        3. 提取：
+            （1）String.slice()             作用：提取字符串的一部分，并返回一个新字符串（不改变原字符串）
+            （2）String.substring()         作用：提取字符串的一部分，并返回一个新字符串（不改变原字符串）
+        4. 查找：
+            （1）String.charAt()            作用：返回指定下标处的值（不改变原数组）
+            （2）String.includes()          作用：判断字符串中是否存在指定元素，返回Boolean（不改变原数组，区分大小写）
+            （3）String.match()             作用：检索字符串中与正则表达式进行匹配的结果（不改变原字符串）
+            （4）String.search()            作用：检索字符串中与正则表达式进行匹配的结果（不改变原字符串）
+            （5）String.indexOf()           作用：查找指定字符串，返回第一次出现的位置索引，不存在返回-1（不改变原字符串）
+        5. 其它：
+            （1）String.split()             作用：将字符串分割为数组，并返回该数组（不改变原字符串）
+            （2）String.replace()           作用：替换字符串中的第一个指定字符，并返回新字符串（不改变原字符串）
+            （3）String.replaceAll()        作用：替换字符串中的所有指定字符，并返回新字符串（不改变原字符串）
+            （4）String.startsWith()        作用：判断字符串是否以某些字符开头，返回Boolean（不改变原字符串）
+            （5）String.trim()              作用：移除字符串两端空白，并返回一个新字符串（不改变原字符串）
+     -->
+</head>
+<body>
+    <script>
+        // 1. 重复：repeat
+        let newStr1 = '*'.repeat(20)
+        console.log(newStr1)    // ********************
+
+        // 2. 合并：concat
+        let str11 = 'hello '
+        let str12 = 'world'
+        let newStr2 = str11.concat(str12)
+        console.log(newStr2)        // hello world
+
+        // 3. 提取:slice
+        let str3 = 'helloWorld'
+        let newStr3 = str3.slice(1, 3)
+        console.log(newStr3)        // el
+
+        // 4. 提取：substring
+        let str4 = 'helloWorld'
+        let newStr4 = str4.substring(1, 3)
+        console.log(newStr4)        // el
+
+        // 5. 查找:charAt
+        let str5 = 'helloWorld'
+        let newVal1 = str5.charAt(5)
+        console.log(newVal1)        // W
+
+        // 6. 查找(区分大小写)
+        let str6 = 'helloWorld'
+        let isTrue1 = str6.includes('w')
+        console.log(isTrue1)
+
+        // 7. 查找：match
+        let str7 = 'hello World'
+        let res1 = str7.match(/[A-Z]/g)
+        console.log(res1)
+
+        // 8. 查找：search
+        let str8 = 'hello World'
+        let res2 = str8.match(/[A-Z]/g)
+        console.log(res2)
+
+        // 9. 查找indexOf
+        let str9 = 'hell world'
+        let res3 = str9.indexOf('W')
+        console.log(res3)
+
+        // 10. 分割为数组split
+        let str10 = 'hello world'
+        let res4 = str10.split('')
+        console.log(res4)
+
+        // 11.  替换replace
+        let str13 = 'html and css and js and vue '
+        let newStr5 = str13.replace('and', 'he')
+        console.log(newStr5)
+
+        // 12.  替换replaceAll
+        let str14 = 'html and css and js and vue '
+        let newStr6 = str14.replaceAll('and', 'he')
+        console.log(newStr6)
+
+        // 14. 去除边缘空白
+        let str15 = ' hello world '
+        let noTrim = str15.trim()
+        console.log(noTrim)
+
+        // 15. 判断: startsWith()
+        let str16 = 'hello world'
+        let isTrue2 = str16.startsWith('hello')
+        console.log(isTrue2)
+    </script>
+</body>
+</html>

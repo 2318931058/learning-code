@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .father{
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+    }
+    .son{
+      width: 100px;
+      height: 100px;
+      background-color: purple;
+    }
+  </style>
+</head>
+<body>
+  <div class="father">
+    <div class="son"></div>
+  </div>
+
+
+  <script>
+    const fa = document.querySelector('.father')
+    const son = document.querySelector('.son')
+
+    // 事件捕获
+    // fa.addEventListener('click', ()=>{
+    //   console.log('事件捕获father')
+    // }, true)
+    // son.addEventListener('click', ()=>{
+    //   console.log('事件捕获son')
+    // }, true)
+
+    // 事件冒泡
+    fa.addEventListener('click', ()=>{
+      console.log('事件捕获father')
+    }, false)
+    son.addEventListener('click', ()=>{
+      console.log('事件捕获son')
+    }, false)
+
+  </script>
+</body>
+</html>

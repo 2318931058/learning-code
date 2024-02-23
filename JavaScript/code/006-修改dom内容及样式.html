@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body{
+      background: url(./assets/images/desktop_1.jpg) no-repeat top center/cover;
+    }
+    img{
+      width: 100px;
+    }
+    .nav{
+      border-radius: 50%;
+      border: 1px solid red;
+    }
+    .box{
+      width: 50px;
+      height: 50px;
+      background-color: skyblue;
+    }
+    .oldp{
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border: 5px dotted red;
+    }
+    .newP{
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: skyblue;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav"></div>
+  <p class="oldp"></p>
+  <ul>
+    <li class="chifan">吃饭</li>
+    <li class="shuijiao">睡觉</li>
+    <li class="dadoudou">打豆豆</li>
+  </ul>
+  <img src="./assets/images/1.webp" alt="">
+
+  <script>
+    function getRandom(n, m){
+      return Math.floor(Math.random() * (m - n )) + n
+    }
+
+    // 修改内容---innerText
+    const eat = document.querySelector('.chifan')
+    eat.innerText = 'eat'
+
+    // 修改内容---innerHTML（可解析标签）
+    const sleep = document.querySelector('.shuijiao')
+    sleep.innerHTML = `<h1>sleep</h1>`
+
+    // 修改属性：src、href、title、innerHTML等
+    const img = document.querySelector('img')
+    const random1 = getRandom(1, 6)
+    img.src = `./assets/images/${random1}.webp`
+
+    // 修改样式---style方式
+    const random2 = getRandom(1, 10)
+    document.body.style.background = `url(./assets/images/desktop_${random2}.jpg)`
+
+    // 修改样式---className方式
+    const div = document.querySelector('div')
+    div.className = 'nav box'   // 可以同时保留两个类名（若只有一个类名，则会替换掉之前的类名）
+
+    // 修改样式---classList方式：add/remove/toggle
+    const p = document.querySelector('p')
+    p.classList.add('newP')
+  </script>
+</body>
+</html>

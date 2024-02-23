@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <a href="http://www.baidu.com">百度一下</a>
+  <button class="back">后退</button>
+  <button class="forward">前进</button>
+
+  <script>
+    const back = document.querySelector('.back')
+    const forward = document.querySelector('.forward')
+
+    forward.addEventListener('click', ()=>{
+      history.forward()
+      // history.go(1)
+    })
+
+    back.addEventListener('click', ()=>{
+      history.back()
+      // history.go(-1)
+    })
+
+  </script>
+</body>
+</html>

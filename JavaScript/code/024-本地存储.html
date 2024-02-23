@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // localStorage---简单数据类型
+    localStorage.setItem('userName', '张三')  // 添加
+    console.log(localStorage.getItem('userName')) // 获取
+    // localStorage.removeItem(userName)  // 删除
+
+
+    // localStorage---复杂数据类型
+    const info = {
+      name: '张三',
+      age: 18
+    }
+    localStorage.setItem('info', JSON.stringify(info))		// 存储
+
+    let obj = JSON.parse(localStorage.getItem('info'))  // 使用
+    console.log(obj.age)
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      position: relative;
+      width: 400px;
+      height: 200px;
+      text-align: center;
+      background-color: #fcfcfc;
+      border: 2px dotted black;
+    }
+
+    .box h3 {
+      margin: 20px auto;
+    }
+
+    .box .name {
+      margin: 40px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .box .btn {
+      position: absolute;
+      bottom: 20px;
+      left: 100px;
+    }
+
+    .box .btn button {
+      padding: 5px 30px;
+      margin-right: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h3>随机点名</h3>
+    <p class="name">???</p>
+    <div class="btn">
+      <button class="begin">开始</button>
+      <button class="close">结束</button>
+    </div>
+  </div>
+
+  <script>
+    const arr = ['张三', '李四', '王五', '赵六', '孙七', '周八', '吴九', '郑十']
+    const begin = document.querySelector('.begin')
+    const name = document.querySelector('.name')
+    const close = document.querySelector('.close')
+    let interTimer, index
+
+    begin.addEventListener('click', () => {
+      interTimer = setInterval(() => {
+        index = Math.floor(Math.random() * arr.length)
+        name.innerHTML = arr[index]
+      }, 100);
+      if (arr.length === 1) {
+        alert('只剩下这一个了')
+        begin.disabled = true
+        close.disabled = true
+      }
+
+    })
+    close.addEventListener('click', () => {
+      clearInterval(interTimer)
+      arr.splice(index, 1)
+    })
+
+  </script>
+</body>
+
+</html>

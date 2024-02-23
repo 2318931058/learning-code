@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const currentDate = new Date()
+    document.write(`${currentDate}<br /><br />`)   // Wed Nov 29 2023 20:39:17 GMT+0800 (中国标准时间)
+    
+
+    const specifiedDate = new Date('2008-08-15')    // Fri Aug 15 2008 08:00:00 GMT+0800 (中国标准时间)
+    document.write(`${specifiedDate}<br /><br />`)
+
+    document.write(`${currentDate.getFullYear()}<br /><br />`)  // 2023
+
+    document.write(`${currentDate.getMonth() + 1}<br /><br />`)  // 11
+
+    document.write(`${currentDate.getDate()}<br /><br />`)  // 29
+
+    document.write(`${currentDate.getDay()}<br /><br />`)  // 3
+
+    document.write(`${currentDate.getHours()}<br /><br />`)  // 20
+
+    document.write(`${currentDate.getMinutes()}<br /><br />`)  // 46
+
+    document.write(`${currentDate.getSeconds()}<br /><br />`)  // 17
+
+    document.write(`${currentDate.toLocaleString()}<br /><br />`)  // 2023/11/29 20:48:06
+
+    document.write(`${currentDate.toLocaleDateString()}<br /><br />`)  // 2023/11/29
+
+    document.write(`${currentDate.toLocaleTimeString()}<br /><br />`)  // 20:48:27
+
+
+    // 时间戳的三种方式
+    document.write(`${currentDate.getTime()}<br /><br />`)  // 1701262348370
+    document.write(`${+new Date()}<br /><br />`)  // 1701262348370
+    document.write(`${Date.now()}<br /><br />`)  // 1701262348370
+  </script>
+</body>
+</html>

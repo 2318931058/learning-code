@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // setInterval---每隔一段事件调用一次函数, 单位是毫秒
+    let i = 5
+    let interTimer = setInterval(() => {
+      i -= 1
+      document.write(`${i}<br/>`)
+      // 关闭定时器
+      if (i === 0) {
+        clearInterval(interTimer)
+      }
+    }, 1000)
+
+
+    // setTimeout---仅仅只执行一次
+    const timeTimer = setTimeout(()=>{
+      console.log('2秒后执行')
+    }, 2000)
+    // 清除定时器clearTimeout(timeTimer)
+  </script>
+</body>
+
+</html>

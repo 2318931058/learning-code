@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+<body>
+  <span id="hour">00</span>
+  <i>:</i>
+  <span id="minutes">25</span>
+  <i>:</i>
+  <span id="seconds">20</span>
+
+  <script>
+    // 函数封装 getCountTime
+    function getCountTime() {
+      // 1. 得到当前的时间戳
+      const now = +new Date()
+      // 2. 得到将来的时间戳
+      const last = +new Date('2023-12-31 23:59:59')
+      // 3. 得到剩余的时间戳 count  记得转换为 秒数
+      const count = (last - now) / 1000
+      // 4. 转换为时分秒
+      let h = parseInt(count / 60 / 60 % 24)
+      h = h < 10 ? '0' + h : h
+      let m = parseInt(count / 60 % 60)
+      m = m < 10 ? '0' + m : m
+      let s = parseInt(count % 60)
+      s = s < 10 ? '0' + s : s
+
+      //  5. 把时分秒写到对应的盒子里面
+      document.querySelector('#hour').innerHTML = h
+      document.querySelector('#minutes').innerHTML = m
+      document.querySelector('#seconds').innerHTML = s
+    }
+    // 先调用一次
+    getCountTime()
+
+    // 开启定时器
+    setInterval(getCountTime, 1000)
+  </script>
+</body>
+
+</html>

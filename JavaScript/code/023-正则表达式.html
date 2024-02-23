@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // const reg = /前端/
+    // console.log(reg.test('hello 后端')) // false
+    // console.log(reg.exec('hello 前端'))
+
+    
+    console.log(/哈/.test('哈'))  // true
+    console.log(/哈/.test('哈哈'))  // true
+
+    // 边界符/位置符    ^ 和 $
+    console.log(/^哈/.test('哈哈')) // true
+    console.log(/哈$/.test('哈哈')) // true
+    console.log(/^哈$/.test('哈哈'))  // false
+    console.log('---------------------------------------------')
+    // 量词
+    console.log(/^哈*$/.test('')) // true
+    console.log(/^哈*$/.test('哈哈哈')) // true
+
+    console.log(/^哈+$/.test('哈')) // true
+    console.log(/^哈+$/.test('哈哈哈')) // true
+
+    console.log(/^哈?$/.test('')) // true
+    console.log(/^哈?$/.test('哈')) // true
+
+    console.log(/^哈{6}$/.test('哈哈哈哈哈哈')) // true
+
+    console.log(/^哈{6,}$/.test('哈哈哈哈哈哈哈')) // true
+
+    console.log(/^哈{6,10}$/.test('哈哈哈哈哈哈哈哈')) // true
+
+    console.log('---------------------------------------------')
+
+
+    // 字符类
+    console.log(/^[a-z]$/.test('d'))  // true
+
+    console.log(/^[A-Z]$/.test('R'))  // true
+
+    console.log(/^[0-9]$/.test('5'))  // true
+
+    console.log(/^[^6-9]$/.test('5'))  // true
+
+    console.log(/^.$/.test('5'))  // true
+    // 预定类
+    console.log(/^\d$/.test('5'))  // true
+
+    console.log(/^\D$/.test('m'))  // true
+
+    console.log(/^\w$/.test('n'))  // true
+
+    console.log(/^\W$/.test(' '))  // true
+
+    console.log(/^\s$/.test(' '))  // true
+
+    console.log(/^\S$/.test('5'))  // true
+
+    console.log('---------------------------------------------')
+
+    // 修饰符
+    console.log(/^java$/.test('java'))
+    console.log(/^java$/i.test('JAVA'))
+    console.log(/^java$/i.test('Java'))
+
+    const str = 'java是一门编程语言， 学完JAVA工资很高'
+    const res = str.replace(/java/ig, '前端')
+    console.log(res)  // 前端是一门编程语言， 学完前端工资很高
+  </script>
+</body>
+</html>

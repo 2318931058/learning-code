@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let person = {
+      name:'张三',
+      age:18,
+      say(){
+        console.log('hello world')
+      },
+      eat:function (fruit){
+        console.log(fruit)
+      }
+    }
+
+    // 查找(属性访问)
+    console.log(person.name)
+    console.log(person['age'])
+
+    // 修改/新增：有就是修改，没有就是新增
+    person.name = '李四'
+    person.address = '地球'
+    console.log(person)
+
+    // 删除
+    delete person.age
+    console.log(person)
+
+    // 对象中方法的调用
+    person.say()
+    person.eat('apple')
+
+    // 对象的遍历：k是获取对象的属性名，对象名[k]获取的是属性值
+    for(let k in person){
+      console.log(`${k}:${person[k]}`)
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 
+    需求：用户输入一个数，如果数字小于十，则前面进行补零，如08；否则正常显示
+   -->
+</head>
+<body>
+  <script>
+    let num = +prompt('请输入一个数字：')
+    let res = num < 10 ? ('0' + num) : num
+    alert(res)
+  </script>
+</body>
+</html>

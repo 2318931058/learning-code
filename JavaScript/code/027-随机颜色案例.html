@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function getColor(boolean){
+      let myColor = '#'
+      if(boolean !== false){
+        // 如果不为false，就默认返回十六进制
+        let arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
+        for(let i=0; i<6; i++){
+          let index = Math.floor(Math.random() * arr.length)
+          myColor += arr[index]
+        }
+        return console.log(myColor)
+      }else{
+        let r = Math.floor(Math.random() * 256)  // 55
+        let g = Math.floor(Math.random() * 256)  // 89
+        let b = Math.floor(Math.random() * 256)  // 255
+        return console.log(`rgb(${r},${g},${b})`)
+      }
+    }
+    getColor(false)
+  </script>
+</body>
+</html>

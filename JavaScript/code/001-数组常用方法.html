@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        1. 增加：
+            （1）Array.push()               作用：将指定的元素添加到数组的末尾，并返回新的数组长度(不改变原数组)
+            （2）Array.unshift()            作用：将指定元素添加到数组的开头，并返回数组的新长度(不改变原数组)
+        2. 删除：
+            （1）Array.pop()                作用：删除数组中最后一个元素，并返回该元素的值(改变原数组)
+            （2）Array.shift()              作用：删除数组中第一个元素，并返回该元素的值(改变原数组)
+            （3）Array.slice()              作用：截取数组中的某一段，返回一个新的数组对象（不改变原数组）
+            （4）Array.splice()             作用：移除/替换已存在的元素或添加新元素（改变原数组）
+        3. 合并：
+            （1）Array1.concat()            作用：合并两个/多个数组，并返回一个新数组（不改变原数组）
+            （2）Array.join()               作用：将数组中的所有元素拼接成一个字符串（指定字符分割），并返回这个字符串（不改变原数组）
+        4. 排序：
+            （1）Array.reverse()            作用：反转数组中元素的排列顺序（改变原数组）
+            （2）Array.toReversed()         作用：反转数组中元素的排列顺序（不改变原数组）
+            （3）Array.sort()               作用：对数组元素进行排序（改变原数组）
+            （4）Array.toSorted()           作用：对数组元素进行排序（不改变原数组）
+        5. 遍历：
+            （1）Array.forEach()            作用：遍历数组（不改变原数组，无返回值）
+            （2）Array.map()                作用：遍历数组（不改变原数组，返回计算后的新数组）
+            （3）Array.reduce()             作用：遍历数组，进行计算，返回计算后的结果（不改变原数组）
+            （4）Array.filter()             作用：遍历/过滤数组，返回符合条件的新数组（不改变原数组）
+        6. 判断：
+            （1）Array.every()              作用：判断数组中是否每个元素都符合条件（不改变原数组）
+            （2）Array.some()               作用：判断数组中是否有元素符合条件（不改变原数组）
+        7. 查找：
+            （1）Array.indexOf()            作用：返回数组中第一次出现指定元素的下标，不存在则返回-1（不改变原数组）
+            （2）Array.find()               作用：返回数组中满足函数的第一个元素的值，不存在则返回undefined（不改变原数组）
+            （3）Array.findIndex()          作用：返回数组中满足函数的第一个元素的下标，不存在则返回-1（不改变原数组）
+            （4）Array.includes()           作用：判断数组中是否包含指定的元素（不改变原数组）
+        8. 扁平化：
+            （1）Array.flat()               作用：数组扁平化，将多维数组转为一维数组(返回一个新数组)
+
+     -->
+</head>
+
+<body>
+    <script>
+        let arr = [1, 1, 2, 3, 3, 4, 4]
+
+        // set方法去重
+        function unique1(arr) {
+            return Array.from(new Set(arr))
+        }
+        console.log('set方法去重', unique1(arr))
+
+        // set方法解构去重
+        let resArr1 = [...new Set(arr)]
+        console.log('完善set方法', resArr1)
+
+        // 双重for循环和splice去重（NaN和{}无法去重）：双层循环，外层循环元素，内层循环时比较值。值相同时，则删去这个值。
+        function unique2(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = i + 1; j < arr.length; j++) {
+                    if (arr[i] == arr[j]) {
+                        arr.splice(j, 1);
+                        j--;
+                    }
+                }
+            }
+            return arr;
+        }
+        console.log('双重for循环和splice去重', unique2(arr))
+
+        // indexOf去重：新建一个空的结果数组，for 循环原数组，判断结果数组是否存在当前元素，如果有相同的值则跳过，不相同则 push 进数组。
+        function unique3(arr) {
+            if (!Array.isArray(arr)) {
+                console.log('type error!')
+                return
+            }
+            let array = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (array.indexOf(arr[i]) === -1) {
+                    array.push(arr[i])
+                }
+            }
+            return array;
+        }
+        console.log('indexOf去重', unique3(arr))
+
+        // sort去重：利用 sort() 排序方法，然后根据排序后的结果进行遍历及相邻元素比对。
+        function unique4(arr) {
+            if (!Array.isArray(arr)) {
+                console.log('type error!')
+                return;
+            }
+            arr = arr.sort()
+            let arrry = [arr[0]];
+            for (let i = 1; i < arr.length; i++) {
+                if (arr[i] !== arr[i - 1]) {
+                    arrry.push(arr[i]);
+                }
+            }
+            return arrry;
+        }
+        console.log('sort去重', unique4(arr))
+
+        // includes去重
+        function unique5(arr) {
+            if (!Array.isArray(arr)) {
+                console.log('type error!')
+                return
+            }
+            let array = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (!array.includes(arr[i])) {
+                    array.push(arr[i]);
+                }
+            }
+            return array
+        }
+        console.log('includes去重', unique5(arr))
+
+        // filter去重：当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
+        function unique6(arr) {
+            return arr.filter(function (item, index, arr) {
+                //
+                return arr.indexOf(item, 0) === index;
+            });
+        }
+        console.log('filter去重', unique6(arr))
+
+        // map去重
+        function arrayNonRepeatfy(arr) {
+            let map = new Map();
+            let array = new Array();  // 数组用于返回结果
+            for (let i = 0; i < arr.length; i++) {
+                if (map.has(arr[i])) {  // 如果有该key值
+                    map.set(arr[i], true);
+                } else {
+                    map.set(arr[i], false);   // 如果没有该key值
+                    array.push(arr[i]);
+                }
+            }
+            return array;
+        }
+        console.log('map去重', arrayNonRepeatfy(arr))
+
+        // 递归去重
+        function unique7(arr) {
+            let array = arr;
+            let len = array.length;
+            array.sort(function (a, b) {   //排序后更加方便去重
+                return a - b;
+            })
+
+            function loop(index) {
+                if (index >= 1) {
+                    if (array[index] === array[index - 1]) {
+                        array.splice(index, 1);
+                    }
+                    loop(index - 1);    //递归loop，然后数组去重
+                }
+            }
+            loop(len - 1);
+            return array;
+        }
+        console.log('递归去重', unique7(arr))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // 1. push方法：返回新的数组长度(不改变原数组)
+        let arr1 = [1, 2, 3]
+        let newArrLength1 = arr1.push(5)
+        console.log(arr1, newArrLength1)       // [1, 2, 3, 5]、4
+
+        // 2. unshift方法：返回新的数组长度(不改变原数组)
+        let arr2 = [1, 2, 3]
+        let newArrLength2 = arr2.unshift(6)
+        console.log(arr2, newArrLength2)        // [6, 1, 2, 3]、 4
+
+        // 3. pop方法：返回删除的元素的值（改变原数组）
+        let arr3 = [1, 2, 3, 4, 5]
+        let delEle1 = arr3.pop()
+        console.log(arr3, delEle1)               // [1, 2, 3, 4]、5
+
+        // 4. shift方法：删除数组中第一个元素，并返回该元素的值(改变原数组)
+        let arr4 = [1, 2, 3, 4, 5]
+        let delEle2 = arr4.shift()
+        console.log(arr4, delEle2)                  //  [2, 3, 4, 5]、1
+
+        // 5. slice方法(顾头不顾尾、start与end均可为负数)：返回一个新的数组对象（不改变原数组）
+        let arr5 = [1, 2, 3, 4, 5]
+        let newArr1 = arr5.slice(1, 4)
+        console.log('slice', newArr1)          // [2, 3, 4]
+
+        // 注意：splice
+        const attention = [1, 2, 3, 4, 5]
+        let index = 1
+        attention.splice(index, 1)
+        console.log('attention', attention)
+
+        // 6. concat方法：合并两个/多个数组，并返回一个新数组（不改变原数组）
+        let arr61 = ['a', 'b']
+        let arr62 = ['d', 'e']
+        let newArr2 = arr61.concat(arr62)
+        console.log(newArr2)      // ['a', 'b',  'd', 'e']
+
+        // 7. 将数组中的所有元素拼接成一个字符串（指定字符分割），并返回这个字符串（不改变原数组）
+        let arrJoin = ['hello', 'world']
+        let str = arrJoin.join(' ')     // hello world
+        console.log(str)
+
+        // 8. reverse方法：反转数组中元素的排列顺序（改变原数组）
+        let arr7 = [1, 2, 3, 4, 5]
+        arr7.reverse()
+        console.log(arr7, '原数组改变')     // [5, 4, 3, 2, 1]
+
+        // 9. toReversed方法：反转数组中元素的排列顺序（不改变原数组）
+        let arr8 = [1, 2, 3, 4, 5]
+        let newArr3 = arr8.toReversed()
+        console.log(newArr3, '原数组不改变')        // [5, 4, 3, 2, 1]
+        console.log(arr8)       // [1, 2, 3, 4, 5]
+
+        // 10. sort方法：对数组元素进行排序（改变原数组）
+        let arr9 = [1, 2, 3, 4, 5, 6]
+        arr9.sort((a, b) => {
+            return b - a      // 倒序
+        })
+        console.log(arr9, '原数组改变')             //  [6, 5, 4, 3, 2, 1]
+
+        // 11. toSorted方法：对数组元素进行排序（不改变原数组）
+        let arr10 = [1, 2, 3, 4, 5, 6]
+        let newArr4 = arr9.sort((a, b) => {
+            return b - a      // 倒序
+        })
+        console.log(newArr4, '原数组不改变')        //  [6, 5, 4, 3, 2, 1]
+        console.log(arr10)      // [1, 2, 3, 4, 5, 6]
+
+        // 12. forEach方法：遍历数组(不改变原数组，无返回值)
+        let arr11 = [1, 2, 3, 4, 5, 6]
+        arr11.forEach((item, index) => {
+            console.log(`索引为${index}的值为${item}`)
+        })
+
+        // 13. map方法：遍历数组（不改变原数组，返回新数组）
+        let arr12 = [1, 2, 3, 4, 5, 6]
+        let newArr5 = arr12.map(item => item * 2)
+        console.log(newArr5)        //  [2, 4, 6, 8, 10, 12]
+
+        // 14. reduce方法：遍历数组进行计算，返回计算后的结果（不改变原数组）
+        let arr13 = [1, 2, 3, 4, 5, 6]
+        let newVal = arr13.reduce((sum, item) => sum + item, 0)
+        console.log(newVal)     // 21
+
+        // 15. filter方法：遍历/过滤数组，返回符合条件的新数组（不改变原数组）
+        let arr14 = [1, 2, 3, 4, 5, 6]
+        let newArr6 = arr14.filter(item => item % 2 == 0)
+        console.log(newArr6)        // [2, 4, 6]
+
+        // 16. every方法：判断数组中是否每个元素都符合条件
+        let arr15 = [1, 2, 3, 4, 5, 6]
+        let isTrue1 = arr15.every(item => item > 5)
+        console.log(isTrue1)        // false
+
+        // 17. some方法：判断数组中是否有元素符合条件
+        let arr16 = [1, 2, 3, 4, 5, 6]
+        let isTrue2 = arr15.some(item => item > 5)
+        console.log(isTrue2)        // true
+
+        // 18. indexOf方法：返回数组中第一次出现指定元素的下标，不存在则返回-1（不改变原数组）
+        let arr17 = [1, 2, 3, 4, 5, 6]
+        let newIndex1 = arr17.indexOf(5)
+        console.log(newIndex1)
+
+        // 19. find方法：返回数组中满足函数的第一个元素的值，不存在则返回undefined（不改变原数组）
+        let arr18 = [1, 2, 3, 4, 5, 6]
+        let newIndex2 = arr18.find(item => item > 2)
+        console.log(newIndex2)
+
+        // 20. findIndex方法：返回数组中满足函数的第一个元素的下标，不存在则返回-1（不改变原数组）
+        let arr19 = [1, 2, 3, 4, 5, 6]
+        let newIndex3 = arr19.findIndex(item => item > 2)
+        console.log(newIndex3)
+
+        // 21. includes方法：判断数组中是否包含指定的元素（不改变原数组）
+        let arr20 = [1, 2, 3, 4, 5, 6]
+        let isTrue3 = arr20.includes(5)
+        console.log(isTrue3)
+
+        // 22. flat方法：数组扁平化，将多维数组转为一维数组(返回一个新数组)
+        let mulArr = [1, 2, [3, [4, 5, [6, 7, 8]]]]
+        let mulArr1 = mulArr.flat()     // 默认为1
+        console.log(mulArr1)
+        let mulArr2 = mulArr.flat(2)
+        console.log(mulArr2)
+        let mulArrAll = mulArr.flat(Infinity)       // Infinity表示直接转为一维数组
+        console.log(mulArrAll)      // [1, 2, 3, 4, 5, 6, 7, 8]
+    </script>
+</body>
+
+</html>

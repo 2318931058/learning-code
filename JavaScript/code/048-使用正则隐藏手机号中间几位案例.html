@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>获奖手机号：<span></span></h1>
+    </div>
+
+    <script>
+        // 示例：隐藏手机号中间四位
+        const tel = '18611112222'
+        // 步骤一：使用正则划分手机号:注意小括号括起来的部分（不需要隐藏）
+        const reg = /^(\d{3})\d{4}(\d{4})$/
+        // 步骤二：利用replace方法进行替换:$1和$2就可以指第一个小括号和第二个小括号括起来的部分
+        const str = tel.replace(reg, '$1****$2')
+        document.querySelector('span').innerHTML = str
+    </script>
+</body>
+</html>

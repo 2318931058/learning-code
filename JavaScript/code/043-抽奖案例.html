@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul>
+    <li>一等奖---<span class="one"></span></li>
+    <li>二等奖---<span class="two"></span></li>
+    <li>三等奖---<span class="three"></span></li>
+  </ul>
+
+  <script>
+    const arr = ['周杰伦', '刘德华', '周星驰', 'Pink老师', '张学友']
+
+    const index1 = Math.floor(Math.random() * arr.length)
+    document.querySelector('.one').innerHTML = arr[index1]
+    arr.splice(index1, 1)
+
+    const index2 = Math.floor(Math.random() * arr.length)
+    document.querySelector('.two').innerHTML = arr[index2]
+    arr.splice(index2, 1)
+
+    const index3 = Math.floor(Math.random() * arr.length)
+    document.querySelector('.three').innerHTML = arr[index3]
+    arr.splice(index3, 1)
+  </script>
+</body>
+</html>

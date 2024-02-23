@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .father{
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+    }
+    .son{
+      width: 100px;
+      height: 100px;
+      background-color: purple;
+    }
+  </style>
+</head>
+<body>
+  <a href="www.baidu.com">百度一下</a>
+
+  <div class="father">
+    <div class="son"></div>
+  </div>
+
+  <script>
+    const fa = document.querySelector('.father')
+    const son = document.querySelector('.son')
+    fa.addEventListener('click', ()=>{
+      console.log('事件捕获father')
+    }, false)
+    son.addEventListener('click', (e)=>{
+      // 阻止事件冒泡/捕获
+      e.stopPropagation()
+      console.log('阻止事件冒泡')
+    }, false)
+
+    const a = document.querySelector('a')
+    a.addEventListener('click', function(e){
+      e.preventDefault()
+      // 阻止默认行为
+      console.log('阻止默认行为')
+    })
+  </script>
+</body>
+</html>
