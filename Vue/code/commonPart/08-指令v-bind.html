@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            border-radius: 50%;
+        }
+
+        /* 动态绑定样式 */
+        .redColor {
+            color: red;
+        }
+
+        .bgcBlue {
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h2>v-bind基础语法</h2>
+        <img :src="url">
+        <hr />
+
+        <h2>v-bind动态绑定样式</h2>
+        <!-- 1. 类名class -->
+        <!-- 1.1 对象形式 -->
+        <p :class="{redColor:true,bgcBlue:false}">hello html</p>
+        <br />
+        <!-- 1.2 数组形式 -->
+        <p :class="['redColor','bgcBlue']">hello css</p>
+        <br />
+
+
+        <!-- 2. style -->
+        <p :style="{color:'green',backgroundColor:'orange'}">hello javascript</p>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                url: './images/a1.jpg'
+            }
+        })
+    </script>
+</body>
+
+</html>

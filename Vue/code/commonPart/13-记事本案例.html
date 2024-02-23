@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 盒子 */
+        #app {
+            width: 300px;
+            padding: 10px;
+            margin: 50px auto;
+            background-color: #eee;
+        }
+
+        /* 输入框 */
+        .input {
+            height: 20px;
+            padding: 10px;
+            margin: 5px 0px 0px 5px;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+
+        /* 添加按钮 */
+        .add-tesk {
+            color: white;
+            padding: 10px;
+            background-color: #ca6258;
+            margin: 0;
+            border-radius: 10px;
+        }
+
+        .add-tesk:hover {
+            cursor: pointer;
+        }
+
+        /* 任务列表 */
+        .tesk-list {
+            position: relative;
+            /* height: 20px; */
+            padding: 5px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid black;
+        }
+
+        .check-tesk,
+        .check-all-tesk {
+            margin: 0px 10px;
+        }
+
+        .test-id,
+        .sum {
+            width: 80px;
+            margin-right: 10px;
+        }
+
+        .del-tesk {
+            position: absolute;
+            right: 10px;
+            bottom: 5px;
+            padding-inline: 10px;
+            margin-inline: 10px;
+        }
+
+        /* 底部 */
+        .clear-all {
+            padding: inline 10px;
+            margin-inline: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h2 style="text-align: center;">记事本</h2>
+        <header style="text-align: center;">
+            <input class="input" type="text" placeholder="请输入任务" v-model="assignment" @keyup.enter.trim="add">
+            <button class="add-tesk" @click="add">添加任务</button>
+        </header>
+
+        <br>
+
+        <main>
+            <ul>
+                <li class="tesk-list" v-for="(item,index) in list" :key="item.id">
+                    <span>{{index+1}}. </span>
+                    <span class="tesk-content">{{item.assignment}}</span>
+                    <button class="del-tesk" @click="del(item.id)">删除</button>
+                </li>
+            </ul>
+        </main>
+
+        <footer v-show="this.list.length">
+            <span class="sum">合计：{{list.length}}</span>
+            <button class="clear-all" @click="clearAll">清除全部</button>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                assignment: '',
+                list: [],
+            },
+            methods: {
+                add() {
+                    let todo = { id: Date.now(), assignment: this.assignment }
+                    if (!this.assignment) return alert('输入为空')
+                    this.list.unshift(todo)
+                    this.assignment = ''
+                },
+                del(id) {
+                    this.list = this.list.filter(item => item.id != id)
+                },
+                clearAll() {
+                    this.list = []
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

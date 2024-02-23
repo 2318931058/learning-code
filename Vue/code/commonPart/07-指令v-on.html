@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            width: 200px;
+            text-align: center;
+            border: 1px solid black;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="grammer">
+            <button @click="number--"> - </button>
+            <span> {{number}} </span>
+            <button @click="add"> + </button>
+        </div>
+
+        <hr>
+        <!-- 练习：自动售货机 -->
+        <div class="practice">
+            <h2>自助售货机</h2>
+            <button @click="buy(5)">可乐五元</button>
+            <button @click="buy(10)">咖啡十元</button>
+            <p>余额：{{balance}}元</p>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                number: 0,
+                balance: 100
+            },
+            methods: {
+                add() {
+                    this.number++
+                },
+                buy(price) {
+                    this.balance -= price
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

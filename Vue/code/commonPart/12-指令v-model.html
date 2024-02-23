@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            width: 300px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <label for="username">登录</label>
+        <input type="text" name="username" id="username" v-model="username">
+        <br /><br />
+        <label for="password">密码</label>
+        <input type="password" name="password" id="password" v-model="password">
+        <br /><br />
+        <button @click="login">登录</button>
+        <button @click="reset">重置</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                username: '',
+                password: ''
+            },
+            methods: {
+                login() {
+                    console.log(this.username, this.password)
+                },
+                reset() {
+                    this.username = ''
+                    this.password = ''
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

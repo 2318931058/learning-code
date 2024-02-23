@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="count--"> - </button>
+        <span>{{count}}</span>
+        <button @click="count++"> + </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                count: 1
+            },
+            // 创建阶段，准备数据
+            beforeCreate() {
+                console.log('实例创建之前，响应式数据准备之前，vm身上没有_data')
+            },
+            created() {
+                // 一般用于发送请求
+                console.log('实例创建之后，响应式数据准备之后，vm身上有_data、方法、计算属性、侦听属性')
+            },
+
+            // 挂载阶段，渲染模板DOM
+            beforeMount() {
+                console.log('实例挂载之前，不能操作dom')
+            },
+            mounted() {
+                console.log('实例挂载之后，可以操作dom')
+            },
+
+            // 更新阶段：修改数据，更新视图
+            beforeUpdate() {
+                console.log('数据更新，视图还没更新')
+            },
+            updated() {
+                console.log('数据更新，视图更新')
+            },
+
+            // 卸载阶段：可以在控制台输入app.$destroyed()尝试
+            beforeDestroy() {
+                console.log('实例销毁之前，实例身上的东西依然可以使用')
+                console.log('一般用于清除一些Vue以外的资源占用，如：定时器、延时器等')
+            },
+            destroyed() {
+                console.log('实例销毁完成，视图保持不变，但指令解绑、监听器移除、子实例销毁')
+            }
+        })
+    </script>
+</body>
+
+</html>

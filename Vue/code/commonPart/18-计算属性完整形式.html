@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input {
+            width: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <label for="surname">姓：</label>
+        <input id="surname" type="text" v-model="surname"> +
+
+        <label for="name">名：</label>
+        <input id="name" type="text" v-model="name"> =
+
+        <span>{{fullName}}</span>
+        <br /><br />
+
+        <button @click="fullName='司马玉龙'">改名卡</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                surname: '',
+                name: '',
+            },
+            computed: {
+                fullName: {
+                    get() {
+                        return this.surname + this.name
+                    },
+                    set(val) {
+                        if (val.length == 3) {
+                            this.surname = val.slice(0, 1)
+                            this.name = val.slice(1)
+                        } else if (val.length == 4) {
+                            this.surname = val.slice(0, 2)
+                            this.name = val.slice(2)
+                        } else {
+                            console.log('暂不考虑')
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

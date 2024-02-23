@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            text-align: center;
+            margin: 100px;
+        }
+
+        .shopping-car {
+            width: 800px;
+            margin: 0 auto;
+            background-color: fff;
+            box-shadow: 5px 5px 10px 10px #eee;
+            border-collapse: collapse;
+        }
+
+        tr,
+        th,
+        td {
+            padding: 20px 30px;
+            border: 1px solid #eee;
+            border-inline: none;
+        }
+
+        tr:hover {
+            background-color: #f5f7fa;
+        }
+
+        .addNumber,
+        .reduceNumber {
+            padding: 5px 10px;
+            background-color: #f5f7fa;
+            border: 1px solid #999;
+            border-radius: 5px;
+        }
+
+        .addNumber,
+        .reduceNumber:hover {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .number {
+            margin: -5px;
+            padding: 5px 15px;
+        }
+
+        .del {
+            color: #f5f7fa;
+            padding: 5px 10px;
+            background-color: #d9363e;
+            border-radius: 5px;
+        }
+
+        .del:hover {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .ringUp {
+            color: #f5f7fa;
+            padding: 5px 10px;
+            background-color: #3f85ed;
+            border-radius: 5px;
+        }
+
+        .ringUp:hover {
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <table class="shopping-car">
+            <thead>
+                <tr>
+                    <th>选中</th>
+                    <th>商品名称</th>
+                    <th>单价</th>
+                    <th>个数</th>
+                    <th>小计</th>
+                    <th>删除</th>
+                </tr>
+            </thead>
+
+            <tbody v-if="shoppingCar.length">
+                <tr v-for="item in shoppingCar" :key="item.id">
+                    <td><input type="checkbox" v-model="item.isChecked" @click="isChecked(item.id)"></td>
+                    <td>{{item.goodsName}}</td>
+                    <td>{{item.unitPrice}}</td>
+                    <td>
+                        <button class="addNumber" :disabled='item.goodsNumber <= 1' @click="item.goodsNumber--"> -
+                        </button>
+                        <span class="number">{{item.goodsNumber}}</span>
+                        <button class="reduceNumber" @click="item.goodsNumber++"> + </button>
+                    </td>
+                    <td>{{item.goodsNumber * item.unitPrice}}</td>
+                    <td><button class="del" @click="delItem(item.id)">删除</button></td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" style="text-align: left;">
+                        <input id="selectAll" type="checkbox" v-model="selectAll">
+                        <label for="selectAll">全选</label>
+                    </td>
+                    <td>总价：￥{{haveCheckedMoney}}</td>
+                    <td><button class="ringUp" @click="pay">结算({{haveCheckedNumber}})</button></td>
+                </tr>
+            </tbody>
+
+            <tbody v-else>
+                <tr>
+                    <td colspan="5">空空如也</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+        const defaultList = [
+            { id: '001', goodsName: '魔方', goodsNumber: 1, unitPrice: 15, isChecked: false },
+            { id: '002', goodsName: '充电器', goodsNumber: 1, unitPrice: 80, isChecked: true },
+            { id: '003', goodsName: '糖果', goodsNumber: 1, unitPrice: 1, isChecked: false },
+        ]
+        const app = new Vue({
+            el: '#app',
+            data: {
+                // 使用本地存储需要将其从json转换回来
+                shoppingCar: JSON.parse(localStorage.getItem('list')) || defaultList
+            },
+            methods: {
+                delItem(id) {
+                    if (!confirm('确定删除？')) return
+                    this.shoppingCar = this.shoppingCar.filter(item => item.id != id)
+                },
+                pay() {
+                    alert('结算成功')
+                }
+            },
+            computed: {
+                selectAll: {
+                    get() {
+                        return this.shoppingCar.every(item => item.isChecked == true)
+                    },
+                    set(val) {
+                        this.shoppingCar.forEach(item => {
+                            item.isChecked = val
+                        })
+                    }
+                },
+                haveCheckedNumber() {
+                    let sum = 0
+                    this.shoppingCar.forEach(item => {
+                        if (item.isChecked == true) {
+                            sum += 1
+                        }
+                    })
+                    return sum
+                },
+                haveCheckedMoney() {
+                    let totalMoney = 0
+                    this.shoppingCar.forEach(item => {
+                        if (item.isChecked == true) {
+                            totalMoney += item.goodsNumber * item.unitPrice
+                        }
+                    })
+                    return totalMoney
+                }
+            },
+            watch: {
+                shoppingCar: {
+                    deep: true,
+                    handler(newVal) {
+                        // 将变化后的数组存储在本地，需要先将其转换为json类型
+                        localStorage.setItem('list', JSON.stringify(newVal))
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

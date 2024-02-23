@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app" style="margin: 0 auto; width: 300px;">
+        <form style="border: 1px solid black; width: 300px; margin: 0 auto;">
+            <label for="username">姓名：</label>
+            <input type="text" v-model="username" id="username">
+            <br /><br />
+
+            <label>是否单身</label>
+            <input type="checkbox" v-model="isSingle">
+            <br /><br />
+
+            性别：
+            <label for="male">男</label>
+            <input type="radio" v-model="gender" value="1" name="gender" id="male">
+            <label for="female">女</label>
+            <input type="radio" v-model="gender" value="0" name="gender" id="female">
+            <br /><br />
+
+            所在城市：
+            <select v-model="city">
+                <!-- select的option需要设置value值提交给后台 -->
+                <option value="001">北京</option>
+                <option value="002">郑州</option>
+                <option value="003">西安</option>
+                <option value="004">成都</option>
+            </select>
+            <br /><br />
+
+            自我描述：
+            <br />
+            <textarea style="resize:none; height: 20px;" v-model="desc"></textarea>
+            <br /><br />
+
+        </form>
+        <button type="submit">立即注册</button>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                username: '',
+                isSingle: true,
+                gender: '1',
+                city: '002',
+                desc: ''
+            },
+        })
+
+    </script>
+</body>
+
+</html>

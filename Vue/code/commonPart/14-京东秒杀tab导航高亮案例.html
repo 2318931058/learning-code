@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        #app {
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        .nav {
+            display: flex;
+        }
+
+        .nav-item {
+            width: 100px;
+            padding: 5px 10px;
+        }
+
+        /* 动态样式 */
+        .highNav {
+            color: white;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <ul class="nav">
+            <li class="nav-item" v-for="(item,index) in list" :key="item.id" @click="activeIndex = index">
+                <button class="nav-item" :class="{highNav:(index==activeIndex)}">{{item.name}}</button>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                activeIndex: 1,
+                list: [
+                    { id: 1, name: '京东秒杀' },
+                    { id: 2, name: '每日特价' },
+                    { id: 3, name: '品类秒杀' }
+                ]
+            }
+        })
+    </script>
+</body>
+
+</html>
