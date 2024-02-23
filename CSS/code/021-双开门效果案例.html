@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0 auto;
+    }
+    .bg{
+      display: flex;
+      width: 1366px;
+      height: 600px;
+      margin: 0 auto;
+      background-image: url(../assets/images/bg.jpg);
+      overflow: hidden;
+    }
+    .left, .right{
+      width: 50%;
+      height: 600px;
+      background-image: url(../assets/images/fm.jpg);
+      transition: all 1s;
+    }
+
+    .right{
+      background-position: right 0;
+    }
+
+    .bg:hover .left{
+      transform: translateX(-100%);
+    }
+
+    .bg:hover .right{
+      transform: translateX(100%);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <div class="left"></div>
+    <div class="right"></div>
+  </div>
+</body>
+</html>

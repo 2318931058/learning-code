@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 1. 通配符选择器：查找页面所有标签，设置相同样式，多用于清除标签的默认样式，如标签默认的内外边距等 */
+    * {
+      padding: 0;
+      margin: 0;
+      background-color: #35CAC3;
+    }
+
+    /* 2. 标签选择器：使用标签名作为选择器，即选择同名标签设置相同的样式，如p标签，div标签等，缺点是无法差异化同名标签的显示效果 */
+    em {
+      color: brown;
+    }
+
+    /* 3. 类选择器：查找对应类名的标签，差异化设置标签的显示效果。使用方式：先通过 .类名 定义类选择器，再通过 class='类名' 使用选择器 */
+    .classSelector {
+      color: antiquewhite;
+    }
+
+    /* 4. id选择器：查找对应id的标签，差异化设置标签的显示效果。使用方式：先通过 #id名 定义id选择器，再通过 id='id名' 使用选择器 */
+    #idSelector {
+      color: aqua;
+    }
+
+    /* 5. 后代选择器：选中某元素的后代元素。使用方式：父选择器 子选择器{属性名:属性值} */
+    .father .son .grandson {
+      color: aquamarine;
+    }
+
+    /* 6. 子代选择器：选中某元素的子代元素(最近的子代元素)。使用方式：父选择器>子选择器{属性名:属性值} */
+    .elder>.younger {
+      color: beige;
+    }
+
+    /* 7. 并集选择器：选中多组标签设置相同的样式。使用方式：选择器1, 选择器2,···,选择器n{属性名:属性值} */
+    strong,
+    del {
+      color: bisque;
+    }
+
+    /* 8. 交集选择器：选中同时满足多个条件的元素(标签选择器须在最前面)。使用方式：选择器1选择器2···选择器n{属性名:属性值} */
+    div span {
+      color: blanchedalmond;
+    }
+
+    /* 9. 伪类选择器：伪类表示元素状态，选中元素某个状态设置样式。如：鼠标悬停 选择器:hover等 */
+    .pseudoClass {
+      color: blue;
+    }
+
+    .pseudoClass:hover {
+      color: blueviolet;
+    }
+
+    /* 
+      10. 结构伪类选择器：根据元素的结构关系查找元素。
+        10-1. 查找第一个E元素：E:first-child
+        10-2. 查找最后一个E元素：E:last-child
+        10-3. 查找第n个E元素：E:nth-child(n)
+          10-3-1. 偶数标签：2n
+          10-3-2. 奇数标签：2n+1 或 2n-1
+          10-3-3. 第x以后的标签：n+x
+          10-3-4. 第x以前的标签：-n+x
+          10-3-5. x的倍数的标签：xn
+          注意：公式中的n取值从 0 开始！！！
+     */
+    ul li:nth-child(2n) {
+      color: darkmagenta;
+      font-weight: 700;
+    }
+
+    /* 
+      11.  伪元素选择器：创建虚拟元素（伪元素），用来摆放装饰性的内容
+        11-1. 在E元素里面最前面添加一个伪元素：E::before
+        11-2. 在E元素里面最后面添加一个伪元素：E::after
+        注意：
+          1. 必须添加content属性，若没有内容，就content:''
+          2. 伪元素默认是行内显示样式，其权重与标签选择器相同
+     */
+    .pseudoElement {
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+    }
+
+    .pseudoElement::before {
+      content: '前面';
+    }
+
+    .pseudoElement::after {
+      content: '后面';
+    }
+  </style>
+</head>
+
+<body>
+  <em>标签选择器：使用标签名作为选择器，即选择同名标签设置相同的样式，如p标签，div标签等，缺点是无法差异化同名标签的显示效果</em>
+  <hr />
+
+  <strong class="classSelector">类选择器：查找对应类名的标签，差异化设置标签的显示效果</strong>
+  <hr />
+
+  <span id="idSelector">id选择器一般配合js使用，且同一个id选择器在一个页面只能使用一次</span>
+  <hr />
+
+  <div class="father">
+    <div class="son">
+      <div class="grandson">后代选择器：选中某元素的后代元素</div>
+    </div>
+  </div>
+  <hr />
+
+  <div class="elder">
+    <div class="younger">子代选择器：选中某元素的子代元素(最近的子代元素)</div>
+  </div>
+  <hr />
+
+  <strong>并集选择器：选中多组标签设置相同的样式。</strong>
+  <del>使用方式为选择器1, 选择器2,···,选择器n{属性名:属性值}</del>
+  <hr />
+
+  <div>
+    <sapn>交集选择器：选中同时满足多个条件的元素(标签选择器须在最前面)</sapn>
+  </div>
+  <hr />
+
+  <p class="pseudoClass">伪类选择器：伪类表示元素状态，选中元素某个状态设置样式。如：鼠标悬停 选择器:hover等</p>
+  <hr />
+
+  <ul>
+    <li>第一个</li>
+    <li>第二个</li>
+    <li>第三个</li>
+  </ul>
+  <hr />
+
+  <div class="pseudoElement">
+    <p>伪元素选择器</p>
+  </div>
+  <hr />
+
+</body>
+
+</html>

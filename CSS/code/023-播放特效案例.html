@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .outer {
+      position: relative;
+      width: 320px;
+      height: 180px;
+      background-image: url(../assets/images/party.jpeg);
+      background-size: cover;
+      margin: 220px auto;
+    }
+
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 58px;
+      height: 58px;
+      opacity: 0;
+      transform: translate(-50%,-50%) scale(5);
+      transition: all 1s;
+      overflow: hidden;
+    }
+
+    /* 平面转换---缩放 */
+    .outer:hover img {
+      opacity: 1;
+      transform: translate(-50%,-50%) scale(1);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="outer">
+    <img src="../assets/images/play.png" alt="">
+  </div>
+</body>
+
+</html>

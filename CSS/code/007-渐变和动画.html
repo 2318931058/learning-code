@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 1. 渐变------------------------------------------------------------------------------------------------------------- */
+    /* 1-1. 线性渐变：background-image:linear-gradient(渐变方向,颜色1 开始渐变位置, 颜色2 开始渐变位置) */
+    .lineColor {
+      background: linear-gradient(217deg, rgba(255, 0, 0, .8), rgba(255, 0, 0, 0) 70.71%),
+        linear-gradient(127deg, rgba(0, 255, 0, .8), rgba(0, 255, 0, 0) 70.71%),
+        linear-gradient(336deg, rgba(0, 0, 255, .8), rgba(0, 0, 255, 0) 70.71%);
+      /* background-image: linear-gradient(45deg, red 10%, blue); */
+    }
+
+    /* 1-2. 径向渐变：从中心向四周，多用于给按钮添加高光效果 */
+    .radialColor {
+      background-image: radial-gradient(100px 100px at center center, red, blue);
+      /* background-image: radial-gradient(50px 20px at center center,red,pink); */
+    }
+
+    /* 2. 动画------------------------------------------------------------------------------------------------------------ */
+    /* 2-1. 单组动画 */
+    @keyframes change {
+
+      /* 定义动画 */
+      from {
+        width: 200px;
+        background-color: yellow;
+      }
+
+      to {
+        width: 800px;
+        background-color: green;
+      }
+    }
+
+    .singleAnimation {
+      /* 
+        使用动画：animation : duration easing-function delay interation-count direction fill-mode play-state name
+          duration表示动画持续时间，单位为秒
+          easing-function表示速度曲线，取值有linear、ease-in
+          delay表示动画延迟执行时间，单位为秒
+          iteration-count表示重复次数，取值为数字或infinite
+          direction表示动画执行方向，取值有alternate、reverse
+          fill-mode表示动画执行完毕时的状态，取值有forwards、backwards、both
+          play-state表示暂停动画，取值有paused
+          name表示动画名称
+
+       */
+      animation: 5s linear 1s infinite alternate both change;
+    }
+
+    /* 2-2. 多组动画 */
+    /* 定义多组动画 */
+    @keyframes changeSize {
+      from {
+        width: 50px;
+        height: 50px;
+        transform: translate(0);
+      }
+
+      to {
+        width: 200px;
+        height: 200px;
+        transform: translate(0%);
+      }
+    }
+
+    @keyframes changeColor {
+      0% {
+        background-color: yellow;
+      }
+
+      100% {
+        background-color: yellowgreen;
+      }
+    }
+
+    /* 使用多组动画 */
+    .mutiAnimation {
+      animation: 5s linear 1s infinite alternate both changeSize, 5s linear 1s infinite alternate both changeColor;
+    }
+
+    /* 2-3. 精灵动画 */
+    @keyframes run {
+      from {
+        background-position: 0 0;
+      }
+
+      to {
+        background-position: -1680px 0;
+      }
+    }
+
+    @keyframes moveTO {
+      0% {
+        transform: translate(0);
+      }
+
+      100% {
+        transform: translate(1000px);
+      }
+    }
+
+    .spritAnimation {
+      animation: run 1s steps(12) infinite, moveTO 5s infinite forwards;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 线性渐变 -->
+  <div class="lineColor" style="width: 200px;height: 200px;border: 1px solid black;"></div>
+  <hr />
+
+  <!-- 径向渐变 -->
+  <div class="radialColor" style="width: 200px;height: 200px;border: 1px solid black;background-color: pink;"></div>
+  <hr />
+
+  <!-- 单组动画 -->
+  <div class="singleAnimation" style="width: 200px;height: 200px;background-color: yellow;"></div>
+  <hr />
+
+  <!-- 多组动画 -->
+  <div style="width: 200px;height: 200px;background-color: yellow;">
+    <div class="mutiAnimation" style="width: 50px;height: 50px;background-color: grey;transform: translate(0);"></div>
+  </div>
+  <hr />
+
+  <!-- 精灵动画---本质还是多组动画 -->
+  <div class="spritAnimation" style="width: 140px;height: 140px;background-image: url(../assets/images/bg.png);"></div>
+</body>
+
+</html>

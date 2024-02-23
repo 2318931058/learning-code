@@ -1,0 +1,53 @@
+/* 
+    0. less使用前准备：
+      0-1. 安装node.js
+      0.2. 使用node -v检查node的版本
+      0-3. 安装less： npm i -g less
+      0-4. 使用lessc -v检查less的版本。
+      0-5. 安装Ease LESS扩展插件
+*/
+
+
+
+
+// 1. less中变量的使用：必须以@为前缀、不能包含特殊字符、不能以数字开头、大小写敏感······
+// 1-1. 定义变量：@变量名 : 值;
+@my-color : pink;
+@font22 : 22px;
+
+// 1-2. 使用变量
+div {
+  font-size: @font22;
+  background-color: @my-color;
+}
+
+
+
+// 2. less中的嵌套
+.box1 {
+  width: 200px;
+  height: 200px;
+  background-color: brown;
+
+  // 若是后代选择器，可以直接将子元素的样式写道父元素里面
+  a {
+    text-decoration: none;
+
+    // 若是交集、伪类、伪元素选择器，我们内存选择器要在前面添加&符号
+    &:hover {
+      color: red;
+    }
+  }
+
+}
+
+
+
+
+// 3. less中的运算：参与运算的双方，若只有一个单位，则最终单位就是该单位；若有两个不同的单位，则以第一个单位为准；
+@baseFont : 10px;
+.box2 {
+  width: @baseFont * 20;
+  height: @baseFont + 180;
+  background-color: purple;
+}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 浮动-------------------------------------------------------------------------------------------------------------- */
+    /* 1-1. 浮动的基本使用 */
+    .floatOne {
+      float: left;
+    }
+
+    .floatTwo {
+      float: right;
+    }
+
+    /* 1-2-1. 清除浮动---额外标签法 */
+    .clearfix1 {
+      clear: both;
+    }
+
+    /* 1-2-2. 清除浮动---单伪元素法 */
+    .clearfix2::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    /* 1-2-3. 清除浮动---双伪元素法 */
+    .clearfix3::before,
+    .clearfix3::after {
+      content: '';
+      display: table;
+    }
+
+    .clearfix3::after {
+      clear: both;
+    }
+
+    /* 1-2-4. 给父元素添加overflow:auto;属性 */
+    .father {
+      overflow: auto;
+    }
+
+
+
+    /* 定位--------------------------------------------------------------------------------------------------------------- */
+    /* 2-1. 相对定位的特点：相对于自己原来的位置、不脱标、显示模式不发生改变*/
+    .relaPosi {
+      position: relative;
+      left: 200px;
+      top: 200px;
+    }
+
+    /* 2-2. 绝对定位的特点：（子绝父相）相对于自己有定位的最近的祖先元素、脱标、行内块 */
+    .posiFather {
+      position: relative;
+    }
+
+    .posiSon {
+      position: absolute;
+      right: 50px;
+      bottom: 50px;
+    }
+
+    /* 2-3. 固定定位的特点：相对于浏览器窗口、脱标、行内块 */
+    .fixPosi {
+      position: fixed;
+      left: 300px;
+      top: 50px;
+    }
+
+    /* 2-4. 常用功能---居中对齐 */
+    /* .tool {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    } */
+
+
+
+    /* 弹性盒子------------------------------------------------------------------------------------------------------------- */
+    .outer{
+      /* 开启弹性布局 */
+      display: flex;
+      /* 切换主轴方向：row、column、row-reverse、column-reverse */
+      flex-direction: row;
+      /* 主轴对齐方式：flex-start、flex-end、center、space-between、space-evenly、space-around */
+      justify-content: space-between;
+      /* 侧轴对齐方式：stretch、center、flex-start、flex-end */
+      align-items: center;
+      /* 弹性盒子换行：wrap、nowrap */
+      flex-wrap: wrap;
+      /* 行对齐方式：flex-start、flex-end、center、space-between、space-evenly、space-around */
+      align-content: space-evenly;
+    }
+    .inner {
+      /* align-self控制单个容器：stretch、center、flex-start、flex-end */
+      align-self: center;
+      /* 弹性伸缩比 */
+      /* flex:1; */
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 浮动 -->
+  <div style="width: 100%;background-color: pink;border: 5px solid pink;">
+    <!-- 浮动的基本使用 -->
+    <div class="floatOne" style="width: 50%;height: 50px;background-color: rgba(255,0,0,.5);">浮动的基本使用</div>
+    <div class="floatTwo" style="width: 50%;height: 50px;background-color: rgba(0, 255, 0, .5);">浮动的基本使用</div>
+    <div class="floatThree" style="width: 100%;height: 100px;background-color: rgba(0,0,255,.5);">浮动的基本使用</div>
+    <hr />
+
+    <!-- 清除浮动原因：浮动元素会脱标，如果父级没有高度，子级浮动后无法撑开父级高度（下面的盒子可能会顶上去） -->
+    <!-- 清除浮动---额外标签法： -->
+    <div>
+      <div style="float:left;width: 50%;height: 50px;background-color: red;">清除浮动---额外标签法</div>
+      <div style="float:right;width: 50%;height: 50px;background-color: orange;">清除浮动---额外标签法</div>
+      <!-- 在父元素内部的最后添加一个块元素，为该块元素添加clear:both;属性 -->
+      <div class="clearfix1"></div>
+    </div>
+    <div class="otherBox" style="width: 100%;height: 50px;background-color: brown;margin: 20px 0;"></div>
+    <hr />
+
+    <!-- 清除浮动---单伪元素法 -->
+    <div class="clearfix2">
+      <div style="float:left;width: 50%;height: 50px;background-color: red;">清除浮动---单伪元素法</div>
+      <div style="float:right;width: 50%;height: 50px;background-color: orange;">清除浮动---单伪元素法</div>
+    </div>
+    <div style="width: 100%;height: 50px;background-color: brown;margin: 20px 0;"></div>
+    <hr />
+
+    <!-- 清除浮动---双伪元素法：既可以用于清除浮动，也可以解决外边距塌陷问题 -->
+    <div class="clearfix3">
+      <div style="float:left;width: 50%;height: 50px;background-color: red;">清除浮动---双伪元素法</div>
+      <div style="float:right;width: 50%;height: 50px;background-color: orange;">清除浮动---双伪元素法</div>
+    </div>
+    <div style="width: 100%;height: 50px;background-color: brown;margin: 20px 0;"></div>
+    <hr />
+
+    <!-- 清楚浮动---overfolw方法 -->
+    <div class="father">
+      <div style="float:left;width: 50%;height: 50px;background-color: red;">清除浮动---overflow:auto;</div>
+      <div style="float:right;width: 50%;height: 50px;background-color: orange;">清除浮动---overflow:auto;</div>
+    </div>
+    <div style="width: 100%;height: 50px;background-color: brown;margin: 20px 0;"></div>
+    <hr />
+  </div>
+
+  <!-- 定位 -->
+  <div style="width: 100%;height: 450px;background-color: green;border: 5px dotted green;">
+    <!-- 相对定位 -->
+    <div>
+      <div style="width: 200px;height: 200px;background-color: orange;float: left;">相对定位---原来的位置</div>
+      <div class="relaPosi" style="width: 200px;height: 200px;background-color: brown;">相对定位---目前的位置</div>
+    </div>
+
+    <!-- 绝对定位 -->
+    <div class="posiFather" style="width: 200px;height: 200px;background-color: blue;">
+      <div class="posiSon" style="width: 100px;height: 100px;background-color: skyblue;">绝对定位---子绝父相</div>
+    </div>
+
+    <!-- 固定定位 -->
+    <div>
+      <div class="fixPosi" style="width: 100px;height: 100px;background-color: yellow;">固定定位</div>
+    </div>
+  </div>
+
+  <!-- 弹性盒子 -->
+  <div>
+    <div class="outer" style="width: 100%;height: 400px;background-color: grey;">
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+      <div class="inner" style="width: 20%;height: 20%;background-color: cyan; margin-right: 20px;"></div>
+    </div>
+  </div>
+</body>
+
+</html>

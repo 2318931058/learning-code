@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>侧边栏导航</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    html {
+      /* 让页面滑动更光滑 */
+      scroll-behavior: smooth;
+    }
+
+    /* 盒子相关样式 */
+    .box div {
+      width: 600px;
+      height: 600px;
+      margin: 50px auto;
+    }
+
+    .box #html {
+      background-color: red;
+    }
+
+    .box #css {
+      background-color: orange;
+    }
+
+    .box #js {
+      background-color: yellow;
+    }
+
+    .box #vue {
+      background-color: green;
+    }
+
+    .box #react {
+      background-color: aqua;
+    }
+
+    /* 侧边栏导航样式 */
+    .btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: fixed;
+      right: 100px;
+      top: 100px;
+      width: 100px;
+      height: 150px;
+    }
+    .btn button a {
+      cursor: pointer;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="top"></div>
+  <div class="box">
+    <div id="html">HTML</div>
+    <div id="css">CSS</div>
+    <div id="js">JavaScript</div>
+    <div id="vue">Vue</div>
+    <div id="react">React</div>
+  </div>
+
+  <div class="btn">
+    <!-- a标签的href与id属性要一致才能实现跳转 -->
+    <button><a href="#html">HTML</a></button>
+    <button><a href="#css">CSS</a></button>
+    <button><a href="#js">JavaScript</a></button>
+    <button><a href="#vue">Vue</a></button>
+    <button><a href="#react">React</a></button>
+    <button><a href="#top">返回顶部</a></button>
+  </div>
+</body>
+
+</html>

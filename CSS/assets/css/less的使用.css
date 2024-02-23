@@ -1,0 +1,28 @@
+/* 
+    0. less使用前准备：
+      0-1. 安装node.js
+      0.2. 使用node -v检查node的版本
+      0-3. 安装less： npm i -g less
+      0-4. 使用lessc -v检查less的版本。
+      0-5. 安装Ease LESS扩展插件
+*/
+div {
+  font-size: 22px;
+  background-color: pink;
+}
+.box1 {
+  width: 200px;
+  height: 200px;
+  background-color: brown;
+}
+.box1 a {
+  text-decoration: none;
+}
+.box1 a:hover {
+  color: red;
+}
+.box2 {
+  width: 200px;
+  height: 190px;
+  background-color: purple;
+}

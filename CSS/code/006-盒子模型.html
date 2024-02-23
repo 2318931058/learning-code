@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 1. 组成部分：内容区域content、内边距padding、外边距margin、边框border（dotted、dashed、solid） */
+    .boxCompose {
+      /* 内边距：内容与盒子边缘之间的距离 */
+      padding: 5px 10px;
+      padding: 5px 10px;
+      /* 外边距：盒子之间的距离 */
+      margin: 20px auto;
+      /* 边框 */
+      border: 1px solid black;
+    }
+
+    /* 2. 尺寸计算：content + padding + border */
+    .boxComputed {
+      /* 默认情况下，给盒子添加边框或内边距时会撑大盒子 */
+      padding: 5px 10px;
+      border: 1px solid black;
+      /* 所以，使用盒子模型时一般会添加box-sizing:border-box;属性！！！ */
+      box-sizing: border-box;
+    }
+
+    /* 3. 元素溢出 */
+    .elementOverFlow {
+      /* overflow属性可以控制溢出元素的内容的显示方式，取值有hidden、scroll、auto */
+      overflow: auto;
+    }
+
+    /* 4-1.外边距合并现象：垂直排列的两个块级/行内块元素，上下margin会合并，浏览器会自动取margin的较大值生效 .  */
+    .upperMargin {
+      margin: 10px auto;
+    }
+
+    .lowerMargin {
+      margin: 20px auto;
+    }
+
+    /* 4-2. 外边距塌陷问题 */
+    .father {
+      /* 解决方式一：给父元素设置border-top属性 */
+      /* border-top: 0.5px solid black; */
+
+      /* 解决方式三：给父元素添加overflow属性 */
+      overflow: auto;
+    }
+
+    .son {
+      /* 父子级的元素，子级的元素添加上外边距会产生塌陷问题，导致父级一起向下移动 */
+      margin: 20px auto;
+      /* 解决方式二：取消子元素的margin属性，而是通过给父元素添加padding属性实现效果 */
+    }
+
+    /* 5. 行内元素的内外边距问题 */
+    .inlineBlock {
+      /* 行内元素添加margin和padding，无法改变元素的垂直位置 */
+      padding: 5px 10px;
+      margin: 50px auto;
+      /* 解决方式是添加margin和padding后再添加`line-height`属性 */
+      line-height: 30px;
+    }
+
+    /* 6. 圆角边框 */
+    .circle {border-radius: 50%;}
+    .capsule {border-radius: 50px;}
+
+   /* 7. 盒子阴影：box-shadow属性可以给元素设置阴影效果，写法：box-shadow: x轴偏移量 y轴偏移量 模糊半径 扩散半径 颜色 内外阴影; */
+  .boxShadow {
+    box-shadow:2px 5px 1px 0 rgba(0,0,0,.5) inset;
+  }
+  </style>
+
+  
+</head>
+
+<body>
+  <div class="boxCompose" style="width: 100%;height: 80px;background-color: red;">盒子的组成</div>
+  <hr />
+
+  <div class="boxComputed" style="width: 100%;height: 80px;background-color: orange;margin: 20px auto;">盒子的尺寸计算</div>
+  <hr />
+
+  <div class="elementOverFlow" style="width: 100%;height: 80px;background-color: yellow; margin: 20px auto;">
+    元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出
+    元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出
+    元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出元素溢出
+  </div>
+  <hr />
+
+  <div class="upperMargin" style="width: 100%;height: 80px;background-color: green;">外边距合并现象</div>
+  <div class="lowerMargin" style="width: 100%;height: 80px;background-color: green;">外边距合并现象</div>
+  <hr />
+
+  <div class="father" style="width: 100%; height: 100px; background-color:cyan;">
+    <div class="son" style="width: 100%; height: 100px; background-color:blue;"></div>
+  </div>
+  <hr />
+
+  <span class="inlineBlock" style="width: 80%;height: 30px;">行内元素的内外边距问题</span>
+  <hr />
+
+  <sapn class="circle" style="display: inline-block; width: 100px;height:100px; background-color: brown;">正圆形</sapn>
+  <sapn class="capsule" style="display: inline-block; width: 100px;height: 50px; background-color: gold;">胶囊状</sapn>
+  <hr />
+
+  <div class="boxShadow" style="display: inline-block; width: 100px;height: 50px; background-color: pink;">盒子阴影</div>
+</body>
+
+</html>

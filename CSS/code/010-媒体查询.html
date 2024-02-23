@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 
+    语法：@media mediatype key (media feature) {css代码}
+      1. mediatype：媒体类型，指将不同的终端设备划分成不同的类型
+        1-1. all用于所有设备；
+        1-2. print用于打印机和打印预览；
+        1-3. screen用于电脑屏幕、平板电脑和智能手机等；
+      2. key：关键字，即将媒体类型或多个媒体特性连接在一起作为媒体查询的条件，取值有and、not和only；
+      3. media feature：媒体特性，指根据不同媒体类型的媒体特性设置不同的展示风格：
+        3-1. width：定义输出设备中页面可见区域的宽度；
+        3-2. min-width：定义输出设备中页面最小可见区域宽度；
+        3-3. max-width：定义输出设备中页面最大可见区域宽度；
+        3-4. min-height：定义输出设备中页面最小可见区域高度；
+        3-5. max-height：定义输出设备中页面最大可见区域高度；
+      4. 引入资源（常用）：针对不同的屏幕尺寸，使用不同的css样式
+        4-1. 语法规则：<link rel="stylesheet" href='url' media="mediatype key (media feature)">
+   -->
+
+  <style>
+    @media screen and (max-width:539px) {
+      body {
+        background-color: blue;
+      }
+    }
+
+    @media screen and (min-width:540px) {
+      body {
+        background-color: green;
+      }
+    }
+
+    @media screen and (min-width:970px) {
+      body {
+        background-color: red;
+      }
+    }
+  </style>
+
+  <!-- 引入资源 -->
+  <link rel="stylesheet" href="../assets/css/style320.css" media="screen and (min-width:320px)">
+  <link rel="stylesheet" href="../assets/css/style640.css" media="screen and (min-width:640px)">
+</head>
+
+<body>
+  <div>box1</div>
+  <div>box2</div>
+</body>
+
+</html>
