@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 其它标签：水平线标签、换行标签、布局标签 -->
+
+  <!-- 水平线标签 -->
+  <hr />
+
+  <!-- 换行标签 -->
+  <br />
+
+  <!-- 
+    布局标签：
+      1. 无语义化的布局标签：div、span
+      2.  语义化布局标签：网页头部header、 网页导航nav、网页底部footer、网页侧边栏aside、网页区块selection、 网页文章article、网页主体main
+   -->
+  <header>
+    <nav>导航</nav>
+  </header>
+  <main>
+    <section>
+      <aside>侧边栏</aside>
+      <article>文章区</article>
+    </section>
+  </main>
+  <footer>底部区域</footer>
+
+
+
+
+
+  <!-- 块标签主要包含：div、h1~h6、p、ul、ol、li、th、td等标签，特点是标签可设置宽高属性，但内容换行显示。 -->
+
+  <!-- div标签 -->
+  <div>无语义化标签的其中一个</div>
+
+  <!-- 标题标签 -->
+  <h1>主标题h1是块标签</h1>
+  <h2>主标题h2是块标签</h2>
+  <h3>主标题h3是块标签</h3>
+  <h4>主标题h4是块标签</h4>
+  <h5>主标题h5是块标签</h5>
+  <h6>主标题h6是块标签</h6>
+
+  <!-- 段落标签 -->
+  <p>段落内容</p>
+
+  <!-- 列表标签：有序列表ol li、无序列表：ul li、自定义列表dl dt(标题) dd(内容)。 -->
+  <ol>
+    <li>有序列表ol li</li>
+    <li>有序列表ol li</li>
+    <li>······</li>
+  </ol>
+  <ul>
+    <li>无序列表ul li</li>
+    <li>无序列表ul li</li>
+    <li>······</li>
+  </ul>
+  <dl>
+    <dt>列表标题</dt>
+    <dd>列表内容</dd>
+  </dl>
+
+  <!-- 
+    表格标签：表格标签table包括三部分（表格头部thead、表格主体和表格底部tfoot），每部分都可以用tr嵌套表头th或内容td。th和td有两个特殊属性，用于合并单元格：
+      - 跨行合并，保留最上单元格：rowspan='参与合并的单元格个数'。
+      - 跨列合并，保留最左单元格：colspan='参与合并的单元格个数'。
+   -->
+  <table>
+    <thead>
+      <tr>
+        <th>表头1</th>
+        <th>表头2</th>
+        <th>表头3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>表头1值1</td>
+        <td rowspan="2">表头1值2</td>
+        <td>表头1值3</td>
+      </tr>
+
+      <tr>
+        <td>表头2值1</td>
+        <td>表头2值3</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>总结</td>
+        <td colspan="3">继续努力</td>
+      </tr>
+    </tfoot>
+  </table>
+
+
+
+
+
+  <!-- 行标签主要包含span、a、audio、strong、ins、em、del、label等标签，特点是标签不能设置宽高属性，内容在同一行显示。 -->
+
+  <!-- span标签 -->
+  <span>无语义化标签的其中一个</span>
+
+  <!-- 超链接标签：跳转地址href（值为#表示空链接，即刷新原页面）、打开方式target（取值有 _blank和_self等） -->
+  <a href="http://www.baidu.com" target="_blank">百度一下</a>
+
+  <!-- 音频标签属性：音频地址src、控制面板controls、循环播放loop、自动播放autoplay(浏览器会自动禁用)  -->
+  <audio src="../assets/images/audio.mp3" controls loop autoplay></audio>
+
+  <!-- 文本格式化标签：加粗标签strong（或b）、倾斜标签em（或i）、下划线标签ins（或u）和删除线标签del（或s） -->
+  <strong>strong为加粗标签</strong>
+  <em>em为倾斜标签</em>
+  <ins>ins为下划线标签</ins>
+  <del>del为下划线标签</del>
+
+
+
+
+
+  <!-- 行内块标签主要包含：img、video、input、textarea、button、select等标签，特点是既可设置宽高，内容又在同一行显示。 -->
+
+  <!-- 图像标签：图片地址src、图片不存在时的替换文本alt、鼠标悬停文本title、图片宽度width、图片高度height -->
+  <img src="../assets/images/img.jpg" alt="dog1" title="美女热舞" width="480px" height="270px">
+
+  <!-- 视频标签属性：、视频地址src、控制面板controls、循环播放loop、静音播放muted、 自动播放autoplay（与muted一同使用）、高度height、宽度width -->
+  <video src="../assets/images/video1.mp4" controls loop muted autoplay width="100px" height="100px"></video>
+
+  <!-- 表单标签 -->
+  <form action="" method="" target="">
+    <!-- 文本输入框 -->
+    <input type="text" placeholder="提示文本" value='' width='' height=''>
+    <!-- 密码框 -->
+    <input type="password" placeholder="提示文本" value='' width='' height=''>
+    <!-- 单选框：checked属性控制是否默认选中，name属性用于控件分组 -->
+    <input type="radio" name="控件组名" checked>值1
+    <input type="radio" name="控件组名">值2
+    <!-- 多选框：checked属性控制是否默认选中 -->
+    <input type="checkbox" checked>值1
+    <input type="checkbox">值2
+    <!-- 上传文件：multiple属性表示可以多选 -->
+    <input type="file" multiple>
+    <!-- 文本域：可以使用css的resize:none;属性禁止拖拽 -->
+    <textarea name="" id="">内容</textarea>
+    <!-- 下拉选择框：selected属性控制是否默认选中 -->
+    <select name="" id="">
+      <option value="">值1</option>
+      <option value="" selected>值2</option>
+    </select>
+    <!-- 按钮：type的取值有三种：button（默认）、重置reset和提交submit -->
+    <button type="reset">重置</button>
+    <!-- 标签主要用于绑定文字和表单控件的关系，增大表单控件的点击范围 -->
+    <!-- 标签写法一 -->
+    <input type="text" id="id名称">
+    <label for="id名称">内容</label>
+    <!-- 标签写法二 -->
+    <label><input type="password">内容</label>
+  </form>
+
+</body>
+
+</html>
