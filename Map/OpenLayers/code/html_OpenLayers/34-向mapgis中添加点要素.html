@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+  </head>
+  <body>
+    <button onclick="addPoint()">添加点要素</button>
+    <div id="map"></div>
+    <script>
+      // 加载mapgis地图文档
+      var docLayer = new Zondy.Map.Doc("", "doc01", {});
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector, docLayer],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      function addPoint() {
+        // 1. 创建一个中地要素：几何信息+样式信息+属性信息
+        // 1.1 几何信息
+        var gpoint = new Zondy.Object.GPoint(114.41861, 35.04119); // 创建一个点要素
+        var fGeom = new Zondy.Object.FeatureGeometry({ PntGeom: [gpoint] }); // 设置点要素的几何信息
+
+        // 1.2 样式信息
+        var pointInfo = new Zondy.Object.CPointInfo({
+          Angle: 0,
+          Color: 11, //子图颜色
+          Space: 0,
+          SymHeight: 5, //高度
+          SymID: 31, //子图号
+          SymWidth: 5, //宽度
+        });
+        var webGraphicInfo = new Zondy.Object.WebGraphicsInfo({
+          //设置当前点要素的图形参数信息
+          InfoType: 1, // 1为点point   2为线LineString   3为面Area
+          PntInfo: pointInfo,
+        });
+
+        // 1.3 属性信息
+        var attValue = ["熊大"];
+
+        // 2.1 创建要素
+        var feature = new Zondy.Object.Feature({
+          fGeom: fGeom,
+          GraphicInfo: webGraphicInfo,
+          AttValue: attValue,
+        });
+        feature.setFType(1); //设置要素为点要素
+
+        // 2.2 创建要素集
+        var featureSet = new Zondy.Object.FeatureSet();
+        var cAttStruct = new Zondy.Object.CAttStruct({
+          // 设置属性结构
+          FldName: ["name"], // name和mapgis中的属性字段对应
+          FldNumber: 1,
+          FldType: ["string"],
+        });
+        featureSet.AttStruct = cAttStruct;
+        featureSet.addFeature(feature); // 添加要素到要素数据集
+
+        // 3. 调用服务添加要素：第一个参数为ig server服务的名称，第二个参数时添加要素所在的图层
+        var editService = new Zondy.Service.EditDocFeature("doc01", 2, {});
+        editService.add(featureSet, onPntSuccess); // 执行添加点要素功能
+      }
+
+      //添加点要素回调函数
+      function onPntSuccess(data) {
+        if (data.succeed) {
+          alert("添加点要素成功！");
+          docLayer.refresh();
+        } else {
+          alert("添加点要素失败！");
+        }
+      }
+    </script>
+  </body>
+</html>

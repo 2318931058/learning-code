@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+  </head>
+  <body>
+    <button id="btn" onclick="activeMap()">激活地图-添加要素</button>
+    <button onclick="disactiveMap()">移除事件---删除元素</button>
+    <div id="map"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      let style = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 10,
+          fill: new ol.style.Fill({
+            color: "green",
+          }),
+          stroke: new ol.style.Stroke({
+            color: "red",
+            width: 5,
+          }),
+        }),
+      });
+
+      let source = new ol.source.Vector({});
+      let layer = new ol.layer.Vector({
+        source,
+        style,
+      });
+      map.addLayer(layer);
+
+      function handleMap(evt) {
+        let feature = new ol.Feature({
+          geometry: new ol.geom.Point(evt.coordinate),
+        });
+        source.addFeatures([feature]);
+      }
+
+      let btn = document.getElementById("btn");
+      function activeMap() {
+        btn.disabled = true;
+        btn.style.cursor = "no-drop";
+        map.on("click", handleMap);
+      }
+
+      function disactiveMap() {
+        btn.disabled = false;
+        btn.style.cursor = "default";
+        map.un("click", handleMap);
+        source.clear();
+      }
+    </script>
+  </body>
+</html>

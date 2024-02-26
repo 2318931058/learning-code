@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+  </head>
+
+  <body>
+    <button onclick="addPolygon()">添加</button>
+    <div id="map"></div>
+
+    <script>
+      const docLayer = new Zondy.Map.Doc("", "doc01", {
+        ip: "localhost",
+        port: 6163,
+      });
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector, docLayer],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      function addPolygon() {
+        // 1. 创建一个中地要素：几何信息+样式信息+属性信息
+        // 1.1 几何信息
+        var pointObj = [];
+        pointObj[0] = new Zondy.Object.Point2D(99.41, 35.88);
+        pointObj[1] = new Zondy.Object.Point2D(99.41, 26.82);
+        pointObj[2] = new Zondy.Object.Point2D(108, 26.82);
+        pointObj[3] = new Zondy.Object.Point2D(108, 35.88);
+        var gArc = new Zondy.Object.Arc(pointObj); // 设置区要素的几何信息
+        var gAnyLine = new Zondy.Object.AnyLine([gArc]); // 构成区要素折线
+        var gRegion = new Zondy.Object.GRegion([gAnyLine]); // 构成区要素
+        var fGeom = new Zondy.Object.FeatureGeometry({ RegGeom: [gRegion] }); // 构成区要素的几何信息
+
+        // 1.2 样式信息
+        var cRegionInfo = new Zondy.Object.CRegionInfo({
+          EndColor: 1,
+          FillColor: 21, // 填充色
+          FillMode: 0,
+          OutPenWidth: 1,
+          OverMethod: 0,
+          PatAngle: 1,
+          PatColor: 1,
+          PatHeight: 1,
+          PatID: 27, // 填充是图案
+          PatWidth: 1,
+        });
+        var graphicInfo = new Zondy.Object.WebGraphicsInfo({
+          InfoType: 3, // 1为点point   2为线LineString   3为面Area
+          RegInfo: cRegionInfo,
+        });
+
+        // 1.3 属性信息
+        var attValue = ["西南军区"];
+
+        // 2.1 创建要素
+        var newFeature = new Zondy.Object.Feature({
+          fGeom: fGeom,
+          GraphicInfo: graphicInfo,
+          AttValue: attValue,
+        });
+        newFeature.setFType(3);
+
+        // 2.2 创建要素集
+        var featureSet = new Zondy.Object.FeatureSet();
+        var cAttValue = new Zondy.Object.CAttStruct({
+          // 设置属性结构
+          FldNumber: 1,
+          FldType: ["string"],
+          FldName: ["name"],
+        });
+        featureSet.AttStruct = cAttValue;
+        featureSet.addFeature(newFeature); // 添加要素到要素数据集
+
+        // 3. 调用服务添加要素：第一个参数为ig server服务的名称，第二个参数时添加要素所在的图层
+        var editDocFeature = new Zondy.Service.EditDocFeature("doc01", 0, {
+          ip: "localhost",
+          port: "6163",
+        });
+        editDocFeature.add(featureSet, onSuccess);
+      }
+      function onSuccess(data) {
+        if (data.succeed) {
+          alert("添加成功");
+          docLayer.refresh(); //重新加载地图文档
+        } else {
+          alert("添加点要素失败");
+        }
+      }
+    </script>
+  </body>
+</html>

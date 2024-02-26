@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+        var map = new ol.Map({
+            target: "map",
+            layers: [gaode_vector],
+            view: new ol.View({
+                projection: "EPSG:4326",
+                center: [114.3, 30.5],
+                zoom: 4,
+            }),
+        });
+
+        // 1. 构建要素（几何信息+样式信息）：new ol.Feature({})
+        const pointFeature = new ol.Feature({
+            // 几何信息
+            geometry: new ol.geom.Point([114, 30]),
+        });
+        // 可以通过setId设置要素的id值
+        pointFeature.setId(1000)
+        // 样式信息可以通过setStyle方法设置
+        let pointStyle = new ol.style.Style({
+            //形状
+            image: new ol.style.Circle({
+                radius: 30,
+                fill: new ol.style.Fill({
+                    color: '#ffcc33',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: "#333",
+                    width: 5
+                })
+            })
+        })
+        pointFeature.setStyle(pointStyle)
+
+        // 2. 构建矢量数据源，添加要素：new ol.source.Vector({})
+        const pointSource = new ol.source.Vector({
+            // 可以在这设置图层数据源的要素
+            features: [pointFeature],
+        });
+        // 也可以通过addFeatures添加图层数据源的要素
+        // pointSource.addFeatures([pointFeature])
+        // 若要清空数据源中的要素，可以使用clear方法
+        // pointSource.clear()
+
+        // 3. 设置矢量图层：new ol.layer.Vector({})
+        const pointLayer = new ol.layer.Vector({
+            // 可以在这设置图层的数据源
+            source: pointSource,
+            // 可以在这直接给图层设置样式
+            // style:pointStyle
+        });
+        // 也可以通过setSource设置图层的数据源
+        // pointLayer.setSource(pointSource)
+
+        // 也可以通过setStyle方式给图层设置样式
+        // pointLayer.setStyle(pointStyle)
+
+        // 4. 将矢量图层添加到地图中
+        map.addLayer(pointLayer);
+    </script>
+</body>
+
+</html>

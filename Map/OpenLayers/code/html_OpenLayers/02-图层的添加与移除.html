@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+  </head>
+  <body>
+    <div id="map" style="width: 100vw; height:100vh; overflow: hidden;"></div>
+
+    <script>
+      let gaode = new ol.layer.Tile({
+        title: "高德地图",
+        source: new ol.source.XYZ({
+          url: "http://wprd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}",
+          wrapX: false,
+        }),
+      });
+
+      const map = new ol.Map({
+        target:'map',
+        // 图层添加方式一：直接通过map的layers属性添加
+        // layers:[gaode],
+        view:new ol.View({
+            center:[114,30],
+            zoom:4,
+            projection:'EPSG:4326'
+        })
+      })
+    //   图层添加方式二：通过map的addLayer方法添加
+    map.addLayer(gaode)
+
+    map.on('click',()=>{
+        // 图层移除方式一：通过map的removeLayer方法删除
+        // map.removeLayer(gaode)
+
+        // 图层‘移除’方式二：通过图层的setVisible方法（显示/隐藏）
+        // gaode.setVisible(false)
+
+        // 图层的‘移除’方式三：通过图层的setOpacity方法
+        // gaode.setOpacity(0)
+
+        // 若是用于图层切换，还可以通过图层的setZIndex方法设置图层的堆叠顺序来实现
+    })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+</head>
+<body>
+    <button onclick="magnifyView() ">放大视图</button>
+    <button onclick="shrinkView() ">缩小视图</button>
+    <button onclick="resetCenter() ">设置地图中心点为[0,0]</button>
+    <div id="map" style="width: 100vw; height:100vh; overflow: hidden;"></div>
+
+    <script>
+        var map = new ol.Map({
+            target:"map",
+            layers:[gaode_vector],
+            view:new ol.View({
+                projection:'EPSG:4326',
+                center:[114.30,30.50],
+                zoom:4
+            })
+        })
+
+        // 获取视图
+        let currentView = map.getView()
+        function magnifyView(){
+            // 获取缩放级别
+            const currentZoom = currentView.getZoom()
+            // 设置缩放级别
+            currentView.setZoom(currentZoom + 1)
+        }
+        function shrinkView(){
+            // 获取缩放级别
+            const currentZoom = currentView.getZoom()
+            // 设置缩放级别
+            currentView.setZoom(currentZoom - 1)
+        }
+
+        function resetCenter(){
+            // 获取中心点
+            const currentCenter = currentView.getCenter()
+            // 设置中心点
+            currentView.setCenter([0,0])
+        }
+    </script>
+</body>
+</html>

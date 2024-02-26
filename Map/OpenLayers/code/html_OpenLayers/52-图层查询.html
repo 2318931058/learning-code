@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+  </head>
+  <body>
+    <button onclick="queryLine()">查询线图层</button>
+    <div id="map"></div>
+    <script>
+      var docLayer = new Zondy.Map.Doc("", "doc01", {});
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector, docLayer],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      function queryLine() {
+        // 1. 设置查询结构
+        var queryStruct = new Zondy.Service.QueryFeatureStruct(); // 初始化查询结构对象，设置查询结构包含几何信息
+        queryStruct.IncludeGeometry = true; // 是否包含几何图形信息
+        queryStruct.IncludeAttribute = true; // 是否包含属性信息
+        queryStruct.IncludeWebGraphic = false; // 是否包含图形显示参数
+
+        // 2. 设置查询规则
+        var rule = new Zondy.Service.QueryFeatureRule({
+          EnableDisplayCondition: false, // 是否将要素的可见性计算在内
+          MustInside: false, // 是否完全包含
+          CompareRectOnly: false, // 是否仅比较要素的外包矩形
+          Intersect: true, // 是否相交
+        });
+        // 3. 设置查询参数：实例化查询参数对象
+        var queryParam = new Zondy.Service.QueryParameter({
+          resultFormat: "json",
+          struct: queryStruct,
+          rule: rule,
+        });
+
+        // 4. 调用查询服务：实例化地图文档查询服务对象
+        queryParam.pageIndex = 0; // 设置查询分页号
+        queryParam.recordNumber = 1000; // 设置查询要素数目
+        var queryService = new Zondy.Service.QueryDocFeature( // 实例化地图文档查询服务对象
+          queryParam,
+          "doc01",
+          [1], // 图层索引号，可设置多个
+          {}
+        );
+        queryService.query(querySuccess); // 执行查询操作，querySuccess为查询回调函数
+      }
+
+      function querySuccess(data) {
+        console.log(data);
+      }
+    </script>
+  </body>
+</html>

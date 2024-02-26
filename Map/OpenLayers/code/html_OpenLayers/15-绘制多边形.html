@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [-50, -10],
+          zoom: 4,
+        }),
+      });
+
+      // 定义样式信息
+      const RectStyle = new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: "green",
+        }),
+        stroke: new ol.style.Stroke({
+          color: "red",
+          width: 5,
+        }),
+      });
+
+      // 构建要素
+      const Polygon = new ol.Feature({
+        geometry: new ol.geom.Polygon([
+          [
+            [-50, -10],
+            [-30, 10],
+            [-10, -5],
+          ],
+        ]),
+      });
+      Polygon.setStyle(RectStyle);
+
+      // 构建数据源
+      let polygonSource = new ol.source.Vector({
+        features: [Polygon],
+      });
+      // 构建图层
+      let polygonLayer = new ol.layer.Vector({
+        source: polygonSource,
+      });
+
+      // 添加图层到地图
+      map.addLayer(polygonLayer);
+    </script>
+  </body>
+</html>

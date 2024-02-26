@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <script src="./utils/delFeature.js"></script>
+  </head>
+  <body>
+    <button onclick="deleteArea()">删除要素</button>
+    <div id="map"></div>
+    <script>
+      var docLayer = new Zondy.Map.Doc("", "doc01", {});
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector, docLayer],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      function deleteArea() {
+        var fids = [1];
+        var service = {
+          name: "doc01",
+          layerId: 0,
+        };
+        delFeature({
+          fids,
+          service,
+          docLayer,
+        });
+      }
+    </script>
+  </body>
+</html>

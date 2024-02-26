@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+    <script src="./utils//createDraw.js"></script>
+    <script src="./utils/setCanvas.js"></script>
+  </head>
+  <body>
+    <button id="btn" onclick="activeDraw()">空间分析</button>
+    <button id="btn" onclick="reseteDraw()">刷新</button>
+    <div id="map"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+      // 加载geojson数据
+      let source = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: "./data/query.json",
+      });
+      let layer = new ol.layer.Vector({
+        source,
+      });
+      map.addLayer(layer);
+
+      //   添加交互式画笔
+      let drawSource = new ol.source.Vector({});
+      let drawLayer = new ol.layer.Vector({
+        source: drawSource,
+      });
+      map.addLayer(drawLayer);
+      let draw = createDraw({
+        type: "Box",
+        source: drawSource,
+      });
+      function activeDraw() {
+        map.addInteraction(draw);
+        draw.on("drawend", (evt) => {
+          map.removeInteraction(draw);
+          let position = evt.feature.getGeometry().getCoordinates(); // 获取矩形坐标
+          let polygon = turf.polygon(position); // 将面转换为turf对象
+
+          //   获取geojson图层上的要素:既可以通过source.getFeatures()方法，也可以通过source.forEachFeature方法
+          source.forEachFeature((feature) => {
+            let featurePoint = feature.getGeometry().getCoordinates(); // 获取每个要素的坐标
+            let point = turf.point(featurePoint);
+            //   判断画笔所绘制的矩形包含哪些点
+            let res = turf.booleanContains(polygon, point);
+            // 为包含在内的点设置样式
+            let high_style = setCanvasStyle(map, 30);
+            if (res) {
+              feature.setStyle(high_style);
+            } else {
+              feature.setStyle(null);
+            }
+          });
+        });
+      }
+      function reseteDraw(){
+        let allFeatures = source.getFeatures()
+        allFeatures.forEach(item=>{
+            item.setStyle(null)
+        })
+        drawSource.clear()
+      }
+    </script>
+  </body>
+</html>

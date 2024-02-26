@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 3,
+        }),
+      });
+
+      // 定义样式信息
+      const RectStyle = new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: "green",
+        }),
+        stroke: new ol.style.Stroke({
+          color: "red",
+          width: 5,
+        }),
+      });
+
+      // 构建正方形
+      const circleObj = new ol.geom.Circle([114.3, 30.5],10); // 创建一个圆对象
+      let rectFeature = new ol.Feature({
+        // 第一个参数为圆对象、第二个参数为正n边形、第三个参数为旋转的弧度
+        geometry: new ol.geom.Polygon.fromCircle(circleObj, 6, Math.PI / 4),
+      });
+
+    //   构建数据源
+    let rectSource = new ol.source.Vector({
+        features:[rectFeature]
+    })
+    // 构建图层
+    let rectLayer = new ol.layer.Vector({
+        source:rectSource,
+    })
+    rectLayer.setStyle(RectStyle)
+    // 添加图层到地图
+    map.addLayer(rectLayer)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <style>
+      #catalog {
+        position: fixed;
+        top: 200px;
+        right: 100px;
+        z-index: 100;
+        background-color: #eee;
+        border: 1px solid black;
+        padding: 10px 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="catalog">
+      <input type="checkbox" value="Point" checked />点图层 <br /><br />
+      <input type="checkbox" value="Line" checked />线图层 <br /><br />
+      <input type="checkbox" value="Area" checked />面图层
+    </div>
+    <div id="map"></div>
+    <script>
+      var docLayer = new Zondy.Map.Doc("", "doc01", {});
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector, docLayer],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      // 获取dom
+      let cataTree = document.querySelector("#catalog");
+      cataTree.addEventListener("click", (evt) => {
+        // 获取点击要素信息
+        let name = evt.target.value;
+        let check = evt.target.checked;
+        if (name == "Point") {
+          if (check) {
+            // docLayer.setLayerStatus([图层索引,显示状态])
+            // 显示状态为include为显示，exclude为隐藏
+            docLayer.setLayerStatus([2], "include");
+          } else {
+            docLayer.setLayerStatus([2], "exclude");
+          }
+        } else if (name == "Line") {
+          if (check) {
+            docLayer.setLayerStatus([1], "include");
+          } else {
+            docLayer.setLayerStatus([1], "exclude");
+          }
+        } else if (name == "Area") {
+          if (check) {
+            docLayer.setLayerStatus([0], "include");
+          } else {
+            docLayer.setLayerStatus([0], "exclude");
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

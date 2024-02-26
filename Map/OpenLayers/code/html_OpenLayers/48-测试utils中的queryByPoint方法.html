@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <script src="./utils/queryByPoint.js"></script>
+  </head>
+  <body>
+    <button onclick="test()">测试</button>
+    <div id="map"></div>
+    <script>
+      var docLayer = new Zondy.Map.Doc("", "doc01", {});
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector, docLayer],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      function test() {
+        var position = [95, 36];
+        var service = {
+          name: "doc01",
+          layerId: 2,
+        };
+        Query.queryByPoint({
+          position,
+          service,
+          success: (data) => {
+            var features = new Zondy.Format.PolygonJSON().read(data);
+            // console.log(features);
+            source.addFeatures(features);
+          },
+        });
+      }
+
+      //   设置高亮图层
+      const style = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 10,
+          fill: new ol.style.Fill({
+            color: "red",
+          }),
+        }),
+      });
+      var source = new ol.source.Vector({});
+      var layer = new ol.layer.Vector({
+        source,
+        style,
+        opacity: 1,
+      });
+      map.addLayer(layer);
+    </script>
+  </body>
+</html>

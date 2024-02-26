@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 引入依赖包 -->
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+  </head>
+  <body>
+    <!-- 设置地图容器挂载点 -->
+    <div id="map" style="width: 100vw; height:100vh; overflow: hidden;"></div>
+
+    <script>
+      let gaode = new ol.layer.Tile({
+        title: "高德地图",
+        source: new ol.source.XYZ({
+          url: "http://wprd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}",
+          wrapX: false,
+        }),
+      });
+
+      const map = new ol.Map({
+        // 设置地图容器
+        target:'map',
+        // 设置图层
+        layers:[gaode],
+        // 设置地图的中心点、缩放级别和投影坐标系等
+        view:new ol.View({
+            center:[114,30],
+            zoom:4,
+            projection:'EPSG:4326'
+        })
+      })
+    </script>
+  </body>
+</html>

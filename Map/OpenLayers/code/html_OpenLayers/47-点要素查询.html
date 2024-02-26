@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+  </head>
+
+  <body>
+    <button onclick="queryByPoint()">点坐标查询</button>
+    <div id="map"></div>
+    <script>
+      var docLayer = new Zondy.Map.Doc("", "doc01", {});
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector, docLayer],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      //   设置高亮图层
+      const style = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 10,
+          fill: new ol.style.Fill({
+            color: "red",
+          }),
+        }),
+      });
+      var source = new ol.source.Vector({});
+      var layer = new ol.layer.Vector({
+        source,
+        style,
+        opacity: 1,
+      });
+      map.addLayer(layer);
+
+      function queryByPoint() {
+        // 1. 设置要查询的点要素
+        var pointObj = new Zondy.Object.Point2D(95, 36); // 创建一个用于查询的点形状
+        pointObj.nearDis = 3; // 设置查询点的搜索半径
+
+        // 2. 设置查询结构
+        var queryStruct = new Zondy.Service.QueryFeatureStruct(); // 初始化查询结构对象，设置查询结构包含几何信息
+        queryStruct.IncludeGeometry = true; //  是否包含几何图形信息
+        queryStruct.IncludeAttribute = true; // 是否包含属性信息
+        queryStruct.IncludeWebGraphic = false; // 是否包含图形显示参数
+
+        // 3. 设置查询规则
+        var rule = new Zondy.Service.QueryFeatureRule({
+          EnableDisplayCondition: false, // 是否将要素的可见性计算在内
+          MustInside: false, // 是否完全包含
+          CompareRectOnly: false, // 是否仅比较要素的外包矩形
+          Intersect: true, // 是否相交
+        });
+
+        // 4. 设置查询参数：实例化查询参数对象
+        var queryParam = new Zondy.Service.QueryParameter({
+          geometry: pointObj,
+          resultFormat: "json",
+          struct: queryStruct,
+          rule: rule,
+        });
+
+        // 5. 调用查询服务：实例化地图文档查询服务对象
+        var queryService = new Zondy.Service.QueryDocFeature(
+          queryParam,
+          "doc01",
+          2,
+          {}
+        );
+        queryService.query(querySuccess); // 执行查询操作，querySuccess为查询回调函数
+      }
+
+      function querySuccess(data) {
+        // 这里的查询结果data是一个mapgis对象，需要将其转换为ol.Feature类型数组
+        var features = new Zondy.Format.PolygonJSON().read(data);
+        // console.log(features);
+        source.addFeatures(features);
+      }
+    </script>
+  </body>
+</html>

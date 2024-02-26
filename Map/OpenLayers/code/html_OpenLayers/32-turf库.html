@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 导入turf -->
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+  </head>
+  <body>
+    <script>
+      // 求中心点
+      // var rectangle = "114.0169501,30.36460893;114.6261227,30.77017755"; // 定义范围
+      // var arr = rectangle.split(";"); //   将范围分割为一维数组
+      // var result = []; // 将一维数组分割为二维数组
+      // arr.forEach((item) => {
+      //   result.push(item.split(","));
+      // });
+      // var point1 = turf.point(result[0]); //   使用turf计算中心点
+      // var point2 = turf.point(result[1]);
+      // var midpoint = turf.midpoint(point1, point2);
+      // console.log(midpoint);
+
+      // 拓扑分析---是否包含
+      var point = turf.point([114, 30]);
+      var polygon = turf.polygon([ 
+        [
+          [115, 40],
+          [115, 39],
+          [116, 39],
+          [116, 40],
+          [115, 40],
+          [115, 40],
+        ],
+      ]);
+      //第一个几何图形是否完成包含第二个几何图形 包含则返回true,不包含返回false
+      var result = turf.booleanContains(polygon, point);
+      console.log(result);
+
+    </script>
+  </body>
+</html>

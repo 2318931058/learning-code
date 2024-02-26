@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="/libs//gaode.js"></script>
+  </head>
+  <body>
+    <div id="map" style="width: 100vw; height:100vh; overflow: hidden;"></div>
+
+    <script>
+      const map = new ol.Map({
+        target:'map',
+        layers:[gaode_vector],
+        view:new ol.View({
+            center:[114,30],
+            zoom:4,
+            projection:'EPSG:4326'
+        })
+      })
+    </script>
+  </body>
+</html>

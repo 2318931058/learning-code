@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var docLayer = new Zondy.Map.Doc("", "doc01", {});
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector, docLayer],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      // 获取中地地图文档信息
+      let infos = [];
+      let docInfo = new Zondy.Catalog.MapDoc({
+        docName: "doc01",
+      });
+      // 异步
+      docInfo.getLayersInfo((res) => {
+        res.value.forEach((item) => {
+          const { LayerIndex, Name } = item;
+          infos.push({
+            id: LayerIndex,
+            label: Name,
+          });
+        });
+      });
+      console.log(infos);
+
+    //   要获取异步函数的信息，可以使用window.load=()=>{}
+    // window.load函数表示页面上元素加载完成后再执行
+    </script>
+  </body>
+</html>

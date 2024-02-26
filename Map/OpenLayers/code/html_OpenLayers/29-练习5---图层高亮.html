@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <!-- 导入jquery -->
+    <script src="https://lib.baomitu.com/jquery/2.2.4/jquery.js"></script>
+    <style>
+      #popup {
+        width: 150px;
+        border: 1px solid #666;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 200;
+        background-color: #eee;
+        display: none;
+        padding: 10px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 6. 定义dom -->
+    <div id="popup">
+      <div id="content"></div>
+      <!-- <button id="close">x</button> -->
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 6,
+        }),
+      });
+
+      // 1. 加载geojson数据
+      let source = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: "https://geo.datav.aliyun.com/areas_v3/bound/410000_full.json",
+      });
+      let layer = new ol.layer.Vector({
+        source,
+      });
+      map.addLayer(layer);
+
+      // 2. 对图层进行事件监听---移动到哪个图层，哪个图层变成抓手
+      map.on("pointermove", function (e) {
+        var pixel = map.getEventPixel(e.originalEvent);
+        var hit = map.hasFeatureAtPixel(pixel);
+        map.getTargetElement().style.cursor = hit ? "pointer" : "";
+      });
+
+      //   3. 设置高亮样式
+      var high_style = new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: "#333",
+        }),
+      });
+
+      // 4. 添加点击事件，获取点击图层
+      map.on("pointermove", function (evt) {
+        var feature = map.forEachFeatureAtPixel(
+          evt.pixel,
+          function (feature, layer) {
+            return feature;
+          }
+        );
+        if (feature) {
+          // 7. 设置弹窗内容
+          let position = feature.get('center')
+          let pixel = map.getPixelFromCoordinate(position);
+          let adcode = feature.get('adcode')
+          let name = feature.get('name')
+          let level = feature.get('level')
+          $("#popup")
+            .show(500)
+            .css({ left: pixel[0] + "px", top: pixel[1] - 150 + "px" });
+          $("#content").html(`
+            <p>adcode：${adcode}</p>
+            <p>name：${name}</p>
+            <p>level：${level}</p>
+          `);
+
+          let features = source.getFeatures();
+          features.forEach((item) => {
+            // 5. 设置高亮样式
+            if (item == feature) {
+              feature.setStyle(high_style);
+            } else {
+              item.setStyle(null);
+            }
+          });
+        }else{
+          // 移出图层，移除高亮
+          let features = source.getFeatures();
+          features.forEach((item) => {
+            item.setStyle(null);
+          });
+
+          // 清除弹窗
+          $("#content").html();
+          $("#popup").hide(500);
+        }
+      });
+    </script>
+  </body>
+</html>

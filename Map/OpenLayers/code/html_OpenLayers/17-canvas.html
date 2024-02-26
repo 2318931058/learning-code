@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <canvas id="canvas" width="200px" height="200px"></canvas>
+
+    <script>
+      //   绘制矩形
+      //   let canvas = document.querySelector("canvas"); //   获取canvas画布
+      //   let ctx = canvas.getContext("2d"); // 获取canvas绘制上下文
+      //   ctx.fillStyle = "red"; // 设置样式
+      //   ctx.fillRect(50, 50, 200, 200); // 前两个参数为起点坐标，第三个参数为宽度，第四个参数为高度
+
+      // 绘制线（路径）
+      // let canvas = document.querySelector('canvas')
+      // let ctx = canvas.getContext('2d')
+      // ctx.lineWidth = 5   // 线宽
+      // ctx.moveTo(0,0)     // 起点坐标
+      // ctx.lineTo(200,200) // 终点坐标
+      // ctx.strokeStyle = "red"  // 线条颜色
+      // ctx.stroke()
+
+      // 绘制单个空心圆
+      // let canvas = document.querySelector('canvas')
+      // let ctx = canvas.getContext('2d')
+      // ctx.beginPath()     // 开启绘制
+      // ctx.arc(100,100,50,0,Math.PI*2,true)    // 参数为：圆心横坐标、圆心纵坐标、半径、开始弧度、结束弧度、顺/逆时针
+      // ctx.closePath() // 关闭绘制
+      // ctx.stroke()
+
+      // 绘制单个实心圆
+      //   let canvas = document.querySelector("canvas");
+      //   let ctx = canvas.getContext("2d");
+      //   ctx.beginPath();
+      //   ctx.arc(100, 100, 50, 0, Math.PI * 2, true);
+      //   ctx.closePath();
+      //   ctx.fillStyle = "red";
+      //   ctx.fill();
+
+      // 绘制多个实心圆（以两个圆为例）
+      //   function draw() {
+      //     let canvas = document.querySelector("canvas");
+      //     const ctx = canvas.getContext("2d");
+      //     ctx.beginPath(); // 绘制第一个圆（外部）
+      //     ctx.arc(100, 100, 40, 0, Math.PI * 2, false);
+      //     ctx.closePath();
+      //     ctx.fillStyle = "red";
+      //     ctx.fill();
+      //     ctx.beginPath(); // 绘制第二个圆（内部）
+      //     ctx.arc(100, 100, 30, 0, Math.PI * 2, false);
+      //     ctx.closePath();
+      //     ctx.fillStyle = "green";
+      //     ctx.fill();
+      //   }
+      //   draw();
+
+      //   绘制单个动画圆---setInterval实现，也可以通过setTimeout实现（如多圈动画圆）
+      //   let canvas = document.querySelector("canvas");
+      //   const ctx = canvas.getContext("2d");
+      //   let radius = 50;
+      //   let isMagnify = true;
+      //   function draw() {
+      //     ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布：起点横坐标、起点纵坐标、画布宽度、画布高度
+      //     ctx.beginPath();
+      //     ctx.arc(100, 100, radius, 0, Math.PI * 2, false);
+      //     ctx.closePath();
+      //     (ctx.fillStyle = "red"), ctx.fill();
+      //     if (radius >= 100) {
+      //       isMagnify = false;
+      //     } else if (radius < 50) {
+      //       isMagnify = true;
+      //     }
+      //     if (isMagnify) {
+      //       radius++;
+      //     } else {
+      //       radius--;
+      //     }
+      //   }
+      //   setInterval(() => {
+      //     draw();
+      //   }, 20);
+
+      //   绘制多圈动画圆
+      let canvas = document.querySelector("canvas");
+      const ctx = canvas.getContext("2d");
+      let radius = 50;
+      let isMagnify = true;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();    // 外圈动态圆
+        ctx.arc(100, 100, radius, 0, Math.PI * 2, false);
+        ctx.closePath();
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.beginPath();    // 内圈固定圆
+        ctx.arc(100, 100, 50, 0, Math.PI * 2, false);
+        ctx.closePath();
+        ctx.fillStyle = "green";
+        ctx.fill();
+        if (radius >= 80) {
+          isMagnify = false;
+        } else if (radius < 60) {
+          isMagnify = true;
+        }
+        if (isMagnify) {
+          radius++;
+        } else {
+          radius--;
+        }
+        setTimeout(draw, 30);       // 递归
+      }
+      draw();
+    </script>
+  </body>
+</html>

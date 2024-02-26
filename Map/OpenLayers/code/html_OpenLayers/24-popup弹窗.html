@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <!-- 2、设置popup弹窗的样式 -->
+    <style>
+      .ol-popup {
+        position: absolute;
+        background-color: white;
+        -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+        filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 45px;
+        left: -50px;
+      }
+
+      .ol-popup:after,
+      .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+
+      .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+      }
+
+      .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+      }
+
+      .ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+      }
+
+      .ol-popup-closer:after {
+        content: "✖";
+      }
+
+      #popup-content {
+        font-size: 14px;
+        font-family: "微软雅黑";
+      }
+
+      #popup-content .markerInfo {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 1、创建DOM -->
+    <div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content">武汉</div>
+    </div>
+    <div id="map"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+      // 设置图片标注样式
+      const style = new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 60],
+          anchorOrigin: "top-right",
+          anchorXUnits: "fraction",
+          anchorYUnits: "pixels",
+          offsetOrigin: "top-right",
+          offset: [0, 10],
+          scale: 0.5,
+          opacity: 0.75,
+          src: "/images/location.png",
+        }),
+      });
+      const point = new ol.Feature({
+        geometry: new ol.geom.Point([114.3, 30.5]),
+      });
+      point.setStyle(style);
+      let source = new ol.source.Vector({
+        features: [point],
+      });
+      let layer = new ol.layer.Vector({});
+      layer.setSource(source);
+      layer.setMap(map);
+
+      //  3. 获取实现popup的dom
+      var container = document.getElementById("popup");
+      var content = document.getElementById("popup-content");
+      var closer = document.getElementById("popup-closer");
+      //   在地图容器中创建一个Overlay
+      var popup = new ol.Overlay({
+        //要转换成overlay的HTML元素
+        element: container,
+        //当前窗口可见
+        autoPan: true,
+        //Popup放置的位置
+        positioning: "bottom-center",
+        //是否应该停止事件传播到地图窗口
+        stopEvent: false,
+        autoPanAnimation: {
+          //当Popup超出地图边界时，为了Popup全部可见，地图移动的速度
+          duration: 250,
+        },
+      });
+      map.addOverlay(popup);
+
+      //   事件监听:鼠标移动到要素上,显示抓手
+      map.on("pointermove", function (e) {
+        var pixel = map.getEventPixel(e.originalEvent);
+        var hit = map.hasFeatureAtPixel(pixel);
+        map.getTargetElement().style.cursor = hit ? "pointer" : "";
+      });
+
+      //   点击要素,获取要素点的位置,将popup显示到对应位置
+      map.on("click", function (evt) {
+        //判断当前单击处是否有要素，捕获到要素时弹出popup
+        var feature = map.forEachFeatureAtPixel(
+          evt.pixel,
+          function (feature, layer) {
+            return feature;
+          }
+        );
+        if (feature) {
+          console.log(feature);
+          if (popup.getPosition() == undefined) {
+            //设置popup的位置
+            let position = feature.getGeometry().getCoordinates();
+            popup.setPosition(position);
+          }
+        }
+      });
+      //   关闭popup弹窗
+      closer.onclick = function () {
+        //未定义popup位置
+        popup.setPosition(undefined);
+        //失去焦点
+        closer.blur();
+        return false;
+      };
+    </script>
+  </body>
+</html>

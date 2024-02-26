@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <!-- 导入 -->
+    <script src="./utils//setCanvas.js"></script>
+  </head>
+
+  <body>
+    <div id="map" style="width: 100vw; height: 100vh; overflow: hidden"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 8,
+        }),
+      });
+
+      let source = new ol.source.Vector({});
+      let layer = new ol.layer.Vector({
+        source,
+      });
+      map.addLayer(layer);
+
+      map.on("click", (evt) => {
+        let point = new ol.Feature({
+          geometry: new ol.geom.Point(evt.coordinate),
+        });
+        source.addFeature(point);
+        // 调用封装的方法
+        point.setStyle(setCanvasStyle(map, 30))
+      });
+    </script>
+  </body>
+</html>

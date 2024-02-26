@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <!-- 引入axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      let style = new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: "green",
+        }),
+        stroke: new ol.style.Stroke({
+          color: "red",
+          width: 10,
+        }),
+        image: new ol.style.Circle({
+          radius: 30,
+          fill: new ol.style.Fill({
+            color: "#ffcc33",
+          }),
+          stroke: new ol.style.Stroke({
+            color: "#333",
+            width: 5,
+          }),
+        }),
+      });
+
+      //   定义geojson数据
+      //   const geodata = {
+      //     type: "FeatureCollection",
+      //     features: [
+      //       // 点数据
+      //       {
+      //         type: "Feature",
+      //         geometry: {
+      //           type: "Point",
+      //           coordinates: [114.3, 30.5],
+      //         },
+      //         properties: {
+      //           id: 1001,
+      //           name: "熊大",
+      //         },
+      //       },
+      //       // 线数据
+      //       {
+      //         type: "Feature",
+      //         geometry: {
+      //           type: "LineString",
+      //           coordinates: [
+      //             [110, 20],
+      //             [120, 50],
+      //           ],
+      //         },
+      //         properties: {
+      //           id: 1002,
+      //           name: "熊二",
+      //         },
+      //       },
+      //       // 面数据
+      //       {
+      //         type: "Feature",
+      //         geometry: {
+      //           type: "Polygon",
+      //           coordinates: [
+      //             [
+      //               [114, 30],
+      //               [120, 30],
+      //               [120, 24],
+      //             ],
+      //           ],
+      //         },
+      //         properties: {
+      //           id: 1003,
+      //           name: "吉吉国王",
+      //         },
+      //       },
+      //     ],
+      //   };
+      // 将geojson数据添加到地图中
+      //   let features = new ol.format.GeoJSON().readFeatures(geodata);
+      //   let source = new ol.source.Vector({
+      //     features,
+      //   });
+      //   let layer = new ol.layer.Vector({
+      //     source,
+      //     style
+      //   });
+      //   map.addLayer(layer);
+
+      // 加载geojson数据--必须以服务形式开启
+      //   let source = new ol.source.Vector({
+      //     format: new ol.format.GeoJSON(),
+      //     url: "./data/geojsonData.geojson",
+      //   });
+      //   let layer = new ol.layer.Vector({
+      //     source,
+      //     style
+      //   });
+      //   map.addLayer(layer);
+
+      // 发送请求获取geojson数据后加载
+      axios.get("https://geo.datav.aliyun.com/areas_v3/bound/420000_full.json").then((res) => {
+        let features = new ol.format.GeoJSON().readFeatures(res.data);
+        let source = new ol.source.Vector({
+          features,
+        });
+        let layer = new ol.layer.Vector({
+          source,
+          style,
+        });
+        map.addLayer(layer);
+      });
+    </script>
+  </body>
+</html>

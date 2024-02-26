@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+  </head>
+  <body>
+    <button onclick="clearMarker()">清除标注</button>
+    <div id="map"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      // 设置图片标注样式
+      //   const style = new ol.style.Style({
+      //     image: new ol.style.Icon({
+      //       anchor: [0.5, 60],
+      //       anchorOrigin: "top-right",
+      //       anchorXUnits: "fraction",
+      //       anchorYUnits: "pixels",
+      //       offsetOrigin: "top-right",
+      //       // offset:[0,10],
+      //       //图标缩放比例
+      //       scale: 0.5,
+      //       //透明度
+      //       opacity: 0.75,
+      //       //图标的url
+      //       src: "./images/location.png",
+      //     }),
+      //   });
+
+      // 设置文字标注样式
+      //   const style = new ol.style.Style({
+      //     text: new ol.style.Text({
+      //       offsetX: 0,
+      //       offsetY: 10,
+      //       font: "normal 12px 微软雅黑",
+      //       text: "武汉市",
+      //       fill: new ol.style.Fill({ color: "#333" }),
+      //       stroke: new ol.style.Stroke({ color: "#ff2d51", width: 2 }),
+      //     }),
+      //   });
+
+      // 图文标注样式
+      const style = new ol.style.Style({
+        text: new ol.style.Text({
+          offsetX: 0,
+          offsetY: 10,
+          font: "normal 12px 微软雅黑",
+          text: "武汉市",
+          fill: new ol.style.Fill({
+            color: "#333",
+          }),
+          stroke: new ol.style.Stroke({
+            color: "#ff2d51",
+            width: 2,
+          }),
+        }),
+        image: new ol.style.Icon({
+          anchor: [0.5, 60],
+          anchorOrigin: "top-right",
+          anchorXUnits: "fraction",
+          anchorYUnits: "pixels",
+          offsetOrigin: "top-right",
+          // offset:[0,10],
+          //图标缩放比例
+          scale: 0.5,
+          //透明度
+          opacity: 0.75,
+          //图标的url
+          src: "./images/location.png",
+        }),
+      });
+
+      //   创建数据源、图层
+      let markerSource = new ol.source.Vector({});
+      let markerLayer = new ol.layer.Vector({
+        source: markerSource,
+      });
+      map.addLayer(markerLayer);
+
+      map.on("click", (evt) => {
+        let markerFeature = new ol.Feature({
+          geometry: new ol.geom.Point(evt.coordinate),
+        });
+        markerFeature.setStyle(style);
+        markerSource.addFeature(markerFeature);
+      });
+
+      function clearMarker() {
+        markerSource.clear();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 导入turf -->
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [113.64737420105763, 34.74966681779027],
+          zoom: 9,
+        }),
+      });
+
+      //   设置标注样式
+      const style = new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 60],
+          anchorOrigin: "top-right",
+          anchorXUnits: "fraction",
+          anchorYUnits: "pixels",
+          offsetOrigin: "top-right",
+          // offset:[0,10],
+          //图标缩放比例
+          scale: 0.2,
+          //透明度
+          opacity: 0.75,
+          //图标的url
+          src: "./images/location.png",
+        }),
+      });
+      //   构建标注的source、layer
+      const source = new ol.source.Vector({});
+      const layer = new ol.layer.Vector({
+        source,
+        style,
+      });
+      map.addLayer(layer);
+
+      // https://restapi.amap.com/v3/ip?key=      为请求端口号
+      // 936447a6a915883a94c5a46f06b8bdab     为端口号(自己的，有限额)：文档中用的老师的，无限额
+      let url =
+        "https://restapi.amap.com/v3/ip?key=db774d5285ed8eb97c1d816f8e671c94";
+      axios.get(url).then((data) => {
+        // 获取adcode和城市范围rectangle
+        let { adcode, rectangle } = data.data;
+        // 将范围分割为一维数组
+        var arr = rectangle.split(";");
+        // 将一维数组分割为二维数组
+        var result = [];
+        arr.forEach((item) => {
+          result.push(item.split(","));
+        });
+        //   使用turf计算中心点
+        var point1 = turf.point(result[0]);
+        var point2 = turf.point(result[1]);
+        var midpoint = turf.midpoint(point1, point2);
+
+        // 添加标注要素
+        var features = new ol.format.GeoJSON().readFeatures(midpoint);
+        source.addFeatures(features);
+
+        // 加载当前位置geojson图层
+        var geojson_url = `https://geo.datav.aliyun.com/areas_v3/bound/${adcode}.json`;
+        var geo_source = new ol.source.Vector({
+          format: new ol.format.GeoJSON(),
+          url: geojson_url,
+        });
+        var geo_layer = new ol.layer.Vector({
+          source: geo_source,
+        });
+        map.addLayer(geo_layer);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <!-- 导入依赖 -->
+    <script src="https://lib.baomitu.com/FileSaver.js/2.0.5/FileSaver.js"></script>
+  </head>
+  <body>
+    <button onclick="downloadMap()">下载地图</button>
+    <div id="map" style="width: 100vw; height: 100vh; overflow: hidden"></div>
+    <script>
+      // var docLayer = new Zondy.Map.Doc("", "p-map", {
+      //   // 地图文档下载也需要跨域参数
+      //   crossOrigin: "Anonymous",
+      // });
+
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      // 地图下载
+      function downloadMap() {
+        map.once("postcompose", function (event) {
+          const canvas = event.context.canvas;
+          canvas.toBlob(function (blob) {
+            saveAs(blob, "map.png");
+          });
+        });
+        map.renderSync();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+      // 定义一个canvas多圈动画圆
+      let canvas = document.createElement("canvas");
+      let size = 40;
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      let radius = size / 4;
+      let isMagnify = true;
+      function draw() {
+        ctx.clearRect(0, 0, size, size);
+        ctx.beginPath(); // 外圈动画圆
+        ctx.arc(size / 2, size / 2, radius, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.beginPath(); // 内圈静止圆
+        ctx.arc(size / 2, size / 2, 8, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fillStyle = "green";
+        ctx.fill();
+        if (radius > 14) {
+          isMagnify = false;
+        }
+        if (radius < 10) {
+          isMagnify = true;
+        }
+        if (isMagnify) {
+          radius++;
+        } else {
+          radius--;
+        }
+        setTimeout(draw, 180);
+        map.render();
+      }
+      draw();
+
+      //   将canvas多圈动画圆设置为样式：canvas是作为样式设置给要素的
+      let style = new ol.style.Style({
+        image: new ol.style.Icon({
+          img: canvas,
+          imgSize: [canvas.width, canvas.height],
+        }),
+      });
+
+      // 构建要素
+      let point = new ol.Feature({
+        geometry: new ol.geom.Point([114, 30]),
+      });
+      point.setStyle(style);
+      // 设置数据源
+      let source = new ol.source.Vector({
+        features: [point],
+      });
+      // 构建图层
+      let layer = new ol.layer.Vector({
+        source,
+      });
+      // 添加到地图
+      map.addLayer(layer);
+    </script>
+  </body>
+</html>

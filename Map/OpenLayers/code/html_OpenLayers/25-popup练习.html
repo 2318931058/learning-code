@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./OL_SDK/include-openlayers-local.js"></script>
+    <script src="./libs/gaode.js"></script>
+    <style>
+      .ol-popup {
+        position: absolute;
+        background-color: white;
+        -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+        filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 45px;
+        left: -50px;
+      }
+
+      .ol-popup:after,
+      .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+
+      .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+      }
+
+      .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+      }
+
+      .ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+      }
+
+      .ol-popup-closer:after {
+        content: "✖";
+      }
+
+      #popup-content {
+        font-size: 14px;
+        font-family: "微软雅黑";
+      }
+
+      #popup-content .markerInfo {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content">武汉</div>
+    </div>
+
+    <div id="map"></div>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [gaode_vector],
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [114.3, 30.5],
+          zoom: 4,
+        }),
+      });
+
+      var p1 = new ol.Feature({
+        geometry: new ol.geom.Point([114.3, 30.5]),
+        name: "武汉",
+      });
+      var p2 = new ol.Feature({
+        geometry: new ol.geom.Point([118, 30.5]),
+        name: "苏州",
+      });
+      let style = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 20,
+          fill: new ol.style.Fill({
+            color: "red",
+          }),
+        }),
+      });
+      const source = new ol.source.Vector({
+        features: [p1, p2],
+      });
+      const layer = new ol.layer.Vector({
+        source,
+        style,
+      });
+      map.addLayer(layer);
+
+      var container = document.getElementById("popup");
+      var content = document.getElementById("popup-content");
+      var closer = document.getElementById("popup-closer");
+      var popup = new ol.Overlay({
+        //要转换成overlay的HTML元素
+        element: container,
+        //当前窗口可见
+        autoPan: true,
+        //Popup放置的位置
+        positioning: "bottom-center",
+        //是否应该停止事件传播到地图窗口
+        stopEvent: false,
+        autoPanAnimation: {
+          //当Popup超出地图边界时，为了Popup全部可见，地图移动的速度
+          duration: 250,
+        },
+      });
+      map.addOverlay(popup);
+      map.on("pointermove", function (e) {
+        var pixel = map.getEventPixel(e.originalEvent);
+        var hit = map.hasFeatureAtPixel(pixel);
+        map.getTargetElement().style.cursor = hit ? "pointer" : "";
+      });
+      closer.onclick = function () {
+        //未定义popup位置
+        popup.setPosition(undefined);
+        //失去焦点
+        closer.blur();
+        return false;
+      };
+
+      map.on("click", function (evt) {
+        //判断当前单击处是否有要素，捕获到要素时弹出popup
+        var feature = map.forEachFeatureAtPixel(
+          evt.pixel,
+          function (feature, layer) {
+            return feature;
+          }
+        );
+        if (feature) {
+          var name = feature.get("name");
+          console.log(name);
+          if (popup.getPosition() == undefined) {
+            //设置popup的位置
+            content.innerHTML = name;
+            let position = feature.getGeometry().getCoordinates();
+            popup.setPosition(position);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
