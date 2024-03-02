@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v12', 
+            center: [114.30,30.50], 
+            zoom: 1
+        });
+
+        var data = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [114, 30]
+            }
+        }
+        
+
+        map.on('style.load',()=>{
+            map.addSource("wuhan", {
+                type: "geojson",
+                data
+            });
+            map.addLayer({
+                id: "wuhan-circle",
+                type: "circle",
+                source: "wuhan",
+                paint: {
+                    "circle-radius": 15,
+                    "circle-color": "#ff2d51",
+                    'circle-opacity':0.5
+                },
+            });
+        })
+    </script>
+</body>
+</html>

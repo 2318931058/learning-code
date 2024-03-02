@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <!-- 
+        需求:
+            1. 点击'放大'按钮，地图放大；
+            2. 点击'缩小'按钮，地图缩小；
+     -->
+</head>
+<body>
+    <!-- 步骤1：设置四个按钮，并添加点击事件 -->
+    <div id="button" >
+        <button onclick="raiseHead()">视角向上</button>
+        <button onclick="lowerHead()">视角向下</button>
+        <button onclick="leftHead()">视角向左</button>
+        <button onclick="rightHead()">视角向右</button>
+    </div>
+
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v12', 
+            center: [114.30,30.50], 
+            zoom: 12,
+            pitch:70,
+            bearing:0
+        });
+
+        // 步骤二：为按钮设置点击事件函数
+        function raiseHead(){
+            // 获取当前俯仰角
+            const currentPitch = map.getPitch()
+            // 设置俯仰角
+            map.setPitch(currentPitch + 5)
+        }
+        function lowerHead(){
+            const currentPitch = map.getPitch()
+            map.setPitch(currentPitch - 5)
+        }
+        function leftHead(){
+            // 获取当前水平角
+            const currentBearing = map.getBearing()
+            // 设置水平角
+            map.setBearing(currentBearing - 5)
+        }
+        function rightHead(){
+            const currentBearing = map.getBearing()
+            map.setBearing(currentBearing + 5)
+        }
+
+
+    </script>
+</body>
+</html>

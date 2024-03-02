@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v12', 
+            center: [114.30,30.50], 
+            zoom: 12,
+            pitch:45
+        });
+
+        // 定义点数据
+        let point = {
+            type:'FeatureCollection',
+            features:[
+                {
+                    type:'Feature',
+                    geometry:{
+                        type:'Point',
+                        coordinates:[114.30,30.50]
+                    },
+                    properties: {
+                        id: 1001,
+                        name: "熊大"
+                    }
+                },
+                {
+                    type:'Feature',
+                    geometry:{
+                        type:'Point',
+                        coordinates:[114.35,30.50]
+                    },
+                    properties: {
+                        id: 1002,
+                        name: "熊二"
+                    }
+                }
+            ]
+        }
+
+        map.on('style.load',()=>{
+            map.doubleClickZoom.disable(0)
+            map.addSource('pointSource',{
+                type:'geojson',
+                data:point
+            })
+            map.addLayer({
+                id:'pointLayer',
+                source:'pointSource',
+                // fill、line、fill-extrusion、circle
+                type:'circle',
+                paint:{
+                    'circle-radius':20,
+                    'circle-color':'yellow',
+                    'circle-opacity':0.8,
+                    'circle-stroke-width':6,
+                    'circle-stroke-color':'green'
+                }
+            })
+        })
+
+
+        // 点击谁就弹出谁的properties
+        map.on('click','pointLayer',(evt)=>{
+            let id = evt.features[0].properties.id
+            let name = evt.features[0].properties.name
+            // alert(`${name}的id是${id}`)
+
+            console.log(evt.features[0])
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <!-- 
+        需求：
+            1. 移动到哪，那就高亮显示；
+            2. 移动到哪，，popup就显示哪的相关信息
+     -->
+     <style>
+        #content{
+            width: 150px;
+            height: 100px;
+            padding: 5px 10px;
+        }
+     </style>
+</head>
+
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [114.30, 30.50],
+            zoom: 3
+        });
+
+        let data = {
+            type: 'Feature',
+            features: []
+        }
+
+        map.on('style.load', () => {
+            map.doubleClickZoom.disable()
+            // 添加中国面图层
+            map.addLayer({
+                id: 'China',
+                source: {
+                    type: 'geojson',
+                    data: 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
+                },
+                type: 'fill',
+                paint: {
+                    'fill-opacity': 0.3
+                }
+            })
+            // 添加高亮图层 
+            map.addLayer({
+                id: 'hightLayer',
+                source: {
+                    type: 'geojson',
+                    data
+                },
+                type: 'fill',
+                paint: {
+                    'fill-color': "red"
+                }
+            })
+        })
+
+        map.on('mouseout', 'hightLayer',()=>{
+            // 移除图层，高亮消失
+            let sources = map.getSource('hightLayer')
+            data.features = []
+            sources.setData(data)
+
+            // 移除图层，popup弹窗消失
+            if(popup){
+                popup.remove()
+            }
+        })
+
+        let popup = null
+        // 为地图添加事件
+        map.on('mousemove', 'China', (evt) => {
+            let hightLayerSource = map.getSource('hightLayer')
+            hightLayerSource.setData(evt.features[0])
+
+            // 添加popup弹窗：evt.features[0].properties.center
+            if(popup){
+                popup.remove()
+            }
+
+            let position = JSON.parse(evt.features[0].properties.center)
+            let adcode = JSON.parse(evt.features[0].properties.adcode)
+            let name = evt.features[0].properties.name
+            let level = evt.features[0].properties.level
+
+            popup = new mapboxgl.Popup().setHTML(`
+                <div id='content'>
+                    <p>adcode：${adcode}</p>
+                    <p>name：${name} </p>
+                    <p>level：${level}</p> 
+                </div>               
+            `).setLngLat(position).addTo(map)
+        })
+
+        
+    </script>
+</body>
+
+</html>

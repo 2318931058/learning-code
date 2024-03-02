@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+<body>
+    <button onclick="clearMarker()"
+        style="position: fixed; top: 50px; right: 200px; z-index: 1000; padding: 5px 10px;">清除标注</button>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [114.30, 30.50],
+            zoom: 1
+        });
+
+        let marker = null
+        let list = []   // 清空标注时使用
+        map.on('click', evt => {
+            // 标注不是图层，它是作为一个单独的对象被添加到地图map中了
+            const { lng, lat } = evt.lngLat
+            // new mapboxgl.Marker().setLngLat(坐标)用于在某坐标处添加标记
+            marker = new mapboxgl.Marker({
+                color: 'red',
+                draggable: true  // 可拖动
+            }).setLngLat([lng, lat])
+            // 标注名.addTo(地图名)用于向地图中添加标注；
+            list.push(marker)    // 清空标注时使用    
+            marker.addTo(map)
+        })
+
+        function clearMarker() {
+            // 移除标记用  标注名.remove()
+            list.forEach(item => {
+                item.remove()
+            })
+        }
+
+
+    </script>
+</body>
+
+</html>

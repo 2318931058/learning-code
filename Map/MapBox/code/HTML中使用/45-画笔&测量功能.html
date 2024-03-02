@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css' rel='stylesheet' />
+    <!-- 导入画笔 -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css"
+        type="text/css">
+    <!-- 导入turf库 -->
+    <script src="https://lib.baomitu.com/Turf.js/latest/turf.min.js"></script>
+    <!-- 导入jquery -->
+    <script src="https://lib.baomitu.com/jquery/2.2.4/jquery.js"></script>
+    <style>
+        #active {
+            position: fixed;
+            z-index: 1000;
+            width: 200px;
+            height: 50px;
+            top: 10px;
+            left: 50px;
+        }
+
+        #delete {
+            position: fixed;
+            z-index: 1000;
+            width: 200px;
+            height: 50px;
+            top: 10px;
+            left: 300px;
+        }
+
+        #popup {
+            width: 200px;
+            border: 1px solid #333;
+            background-color: #fff;
+            text-align: center;
+            position: fixed;
+            top: 20px;
+            right: 50px;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 添加按钮 -->
+    <button id="delete" onclick="deleteAll()">删所有图形</button>
+    <button id="active" onclick="activeDraw()">激活画笔</button>
+
+    <!-- 设置弹窗内容 -->
+    <div id="popup"></div>
+
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmdiZW5jaGFvIiwiYSI6ImNsODU3aGRiODA0Y2UzcHBzZmFlcmdqZ2sifQ.8k59W_pB_Riwe6o-MneRlA'
+        const map = new mapboxgl.Map({
+            container: "map",
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [114.30, 30.50],
+            zoom: 8
+        })
+        // 定义画笔
+        var draw = new MapboxDraw({
+            keybindings: false,
+            boxSelect: true,
+            clickBuffer: 5,
+            displayControlsDefault: false,
+            controls: {
+
+            }
+        });
+        map.addControl(draw, 'top-left');
+        map.on("draw.create", handleDraw);
+        function handleDraw(e) {
+            var position = e.features[0]
+            // turf库获取面积
+            var area = turf.area(position);
+            // turf库获取中心点
+            var center = turf.center(position).geometry.coordinates;
+            // 将经纬度坐标转换为屏幕坐标
+            let p = map.project(center)
+            let name = (area / 1000).toFixed(2) + "平方公里"
+            $("#popup").show().text(name).css({
+                top: p.y + "px",
+                left: p.x + "px"
+            })
+
+
+        }
+
+        function deleteAll() {
+            draw.deleteAll();
+            $("#popup").hide()
+        }
+        function activeDraw() {
+            draw.changeMode("draw_polygon")
+
+        }
+    </script>
+</body>
+
+</html>

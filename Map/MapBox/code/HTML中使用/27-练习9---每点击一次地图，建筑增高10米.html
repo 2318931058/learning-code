@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v12', 
+            center: [114.40088809833583,30.4663210497187], 
+            zoom: 16,
+            pitch:70
+        });
+
+        map.on('style.load',()=>{
+            map.doubleClickZoom.disable()
+            map.addSource('zdSource',{
+                type:'geojson',
+                data:'http://39.103.151.139:8000/gis/zhongdi'
+            }),
+            map.addLayer({
+                id:'zdLayer',
+                type:'fill-extrusion',
+                source:'zdSource',
+                paint:{
+                    'fill-extrusion-height':100,
+                    'fill-extrusion-color':'#ff2d51',
+                    'fill-extrusion-opacity':0.5,
+                    'fill-extrusion-base':50       
+                }
+            })
+        })
+
+        map.on('click',()=>{
+            // map.getPaintProperty('图层名','图层属性')方法用于获取图层中某个属性的值
+            let currentheight = map.getPaintProperty('zdLayer','fill-extrusion-height')
+            currentheight += 10
+            // map.setPaintProperty('图层名','图层属性',新值/表达式)方法用于设置图层中某个属性的值
+            map.setPaintProperty('zdLayer','fill-extrusion-height',currentheight)
+        })
+    </script>
+</body>
+</html>

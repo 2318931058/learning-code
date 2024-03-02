@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+    <button onclick="clearPoint()" style="position: fixed; right: 50px; top: 50px; z-index: 1000;width: 100px; height: 50px;">清除</button>
+
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v12', 
+            center: [114.30,30.50], 
+            zoom: 10
+        });
+
+        map.on('style.load',()=>{
+            
+        })
+
+        map.on('click',(evt)=>{
+            const {lng,lat} = evt.lngLat
+         
+            let data = {
+                type:'Feature',
+                geometry:{
+                    type:'Point',
+                    coordinates:[lng,lat]
+                }
+            }
+            map.addLayer({
+                id:'POINT' + Date.now(),
+                type:'circle',
+                source:{
+                    type:'geojson',
+                    data
+                }
+            })
+        })
+
+        // 定义方法清除添加的点要素
+        function clearPoint(){
+            // 获取所有图层
+            let layers = map.getStyle().layers
+            // 过滤获取所有添加的点
+            let ids = layers.filter(item=>item.id.startsWith('POINT'))
+            // 遍历删除所有添加的点
+            ids.forEach(item=>{
+                map.removeLayer(item.id)
+            })
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v12', 
+            center: [114.30,30.50], 
+            zoom: 4
+        });
+
+        // 定义线数据
+        let line = {
+            type:'FeatureCollection',
+            features:[
+                {
+                    type:'Feature',
+                    geometry:{
+                        type:'LineString',
+                        coordinates:[[114.30,30.50],[120.30,30.50],[114.30,35.50]]
+                    },
+                    properties: {
+                        id: 1001,
+                        name: "熊大"
+                    }
+                }
+            ]
+        }
+
+        map.on('style.load',()=>{
+            map.addLayer({
+                id:'lineLayer',
+                source:{
+                    type:'geojson',
+                    data:line
+                },
+                type:'line',
+                paint:{
+                    'line-color':'red',
+                    'line-width':20,
+                    'line-opacity':1
+                },
+                // 设置线型
+                'layout':{
+                    'line-cap':'round', // 线条末端样式
+                    'line-join':'round',    // 线条相交处样式
+                }
+            })
+        })
+    </script>
+</body>
+</html>

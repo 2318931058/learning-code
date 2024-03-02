@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    </div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiemhvbmdkaXNodW1hIiwiYSI6ImNsNXJoYXR5eTI2bGgzZW53d2didWF1c3AifQ.6vOplM2NQc_xnJW3aA5ZBA';
+        const map = new mapboxgl.Map({
+            container: "map",
+            style: "mapbox://styles/mapbox/satellite-streets-v12",
+            center: [114.30,30.50],
+            zoom: 12,
+            pitch: 60
+        })
+
+        function rotateMap() {
+            // 获取水平角
+            let currentBearing = map.getBearing();
+            currentBearing += 10;
+            // 为地图设置动画效果
+            map.easeTo({
+                bearing: currentBearing,
+                duration: 500,
+                easing: x => x
+            })
+            /* 白天和黑夜的效果 */
+            if (currentBearing < 0) {
+                // 使用map.setFog()设置白天与黑夜的切换效果
+                map.setFog({
+                    "horizon-blend": 0.3,
+                    color: "#242B4B",
+                    "high-color": "#161B36",
+                    "space-color": "#0B1026",
+                    "star-intensity": 0.8,
+                });
+            } else {
+                map.setFog({
+                    "horizon-blend": 0.3,
+                    color: "white",
+                    "high-color": "#add8e6",
+                    "space-color": "#d8f2ff",
+                    "star-intensity": 0.0,
+                });
+            }
+        }
+
+        map.on("style.load", () => {
+            // 添加地形数据
+            map.addSource('mapbox-dem', {
+                'type': 'raster-dem',
+                url: 'mapbox://mapbox.mapbox-terrain-dem-v1'
+            })
+            map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+            // 循环调用函数（播放动画）
+            setTimeout(() => {
+                rotateMap();
+            }, 4000)
+        })
+        map.on("moveend", () => {
+            rotateMap();
+        })
+        
+    </script>
+</body>
+
+</html>

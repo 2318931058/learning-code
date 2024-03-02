@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入cnd mapbox -->
+    <script src='https://unpkg.com/@antv/l7'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        html,
+        body {
+            overflow: hidden;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map">
+
+    </div>
+    <script>
+        /* 设置token */
+        const token = 'pk.eyJ1IjoiY2hlbmdjaGFvODg2NiIsImEiOiJjbGh6b2xuNGwxN3NuM2ZwMHE4anVqcG1wIn0.5rIBvugCbCQxYCCYJQEsfA';
+        const { Scene, Mapbox, PolygonLayer } = L7;
+        const scene = new Scene({
+            id: "map",
+            map: new Mapbox({
+                style: "mapbox://styles/mapbox/streets-v12",
+                center: [114.050008, 22.529272],
+                zoom: 14.1,
+                pitch: 70,
+                token
+            })
+        })
+        const map = scene.map;
+        scene.on('loaded', () => {
+            fetch(
+                'https://gw.alipayobjects.com/os/basement_prod/972566c5-a2b9-4a7e-8da1-bae9d0eb0117.json'
+            )
+                .then(res => res.json())
+                .then(data => {
+                    const layer = new PolygonLayer({})
+                        .source(data)
+                        .shape('extrude')
+                        .size('h20', [100, 120, 160, 200, 260, 500])
+                        .color('h20', [
+                            '#816CAD',
+                            '#A67FB5',
+                            '#C997C7',
+                            '#DEB8D4',
+                            '#F5D4E6',
+                            '#FAE4F1',
+                            '#FFF3FC'
+                        ])
+                        .active(true)
+                    scene.addLayer(layer);
+                });
+        });
+    </script>
+</body>
+
+</html>

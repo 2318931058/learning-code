@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='./node_modules/mapbox-gl/dist/mapbox-gl.js'></script>
+    <link href='./node_modules/mapbox-gl/dist/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    </div>
+    <script>
+        const gaode = {
+            "version": 8,
+            "sources": {
+                "raster-tiles": {
+                    "type": "raster",
+                    "tiles": ["http://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}"],
+                    "tileSize": 256
+                }
+            },
+            "layers": [{
+                "id": "simple-tiles",
+                "type": "raster",
+                "source": "raster-tiles",
+                "minzoom": 0,
+                "maxzoom": 22
+            }]
+        }
+        const map = new mapboxgl.Map({
+            container: "map",
+            /* style-layers */
+            style: gaode,
+            center: [114.30, 30.50],
+            zoom:4
+        })
+    </script>
+</body>
+
+</html>

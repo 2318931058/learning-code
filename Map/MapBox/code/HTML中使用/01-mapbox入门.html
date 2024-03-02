@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 1. 引入mapbox依赖包 -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+    <!-- 2. 设置地图容器的挂载点 -->
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        // 3. 设置mapbox的token
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmdjaGFvODg2NiIsImEiOiJjbGhzcWowMHUwYTNyM2VwNXZhaXhjd3Q4In0.FEh2q7sEW88Z1B5GcK_TDg'
+        // 4. 初始化地图
+        const map = new mapboxgl.Map({
+            // container用于设置地图容器
+            container:'map',
+            // style用于设置地图图层
+            style:'mapbox://styles/mapbox/streets-v12',
+            // center用于设置地图中心点
+            center:[114.30,30.50],
+            // zoom用于设置地图缩放级别
+            zoom:2,
+            // projection用于设置地图投影坐标系：equalEarth加上会变二维,默认是globe
+            projection:'globe'
+        })
+    </script>
+</body>
+</html>

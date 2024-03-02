@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <!-- 
+        需求：
+            1. 点击哪个位置，地图就漫游到哪个位置；
+            2. 点击‘复位’按钮，地图回到初次加载时的状态
+     -->
+</head>
+<body>
+    <!-- 步骤二：添加复位按钮，并为按钮添加点击事件 -->
+    <button onclick="resetMap()">复位</button>
+
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v12', 
+            center: [114.30,30.50], 
+            zoom: 1
+        });
+
+        // 步骤1：给地图添加点击事件
+        map.on('click',(evt)=>{
+            // 获取点击位置坐标
+            const {lng,lat} = evt.lngLat
+            // 飞行至点击位置
+            map.flyTo({
+                center:[lng,lat],
+                zoom:12,
+                pitch:60,
+                speed:0.6
+            })
+        })
+
+        // 步骤三：为按钮的点击事件添加函数/方法
+        function resetMap(){
+            map.flyTo({
+                center: [114.30,30.50],
+                zoom:12,
+                pitch:0,
+                speed:0.8
+            })
+        }
+
+
+    </script>
+</body>
+</html>

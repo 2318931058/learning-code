@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+<body>
+    <!-- 只能在官方地图使用,高德地图失效。高德中可以使用自定义标注marker代替 -->
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [114.30, 30.50],
+            zoom: 10
+        });
+
+        map.on("load", () => {
+            map.addLayer({
+                id: "points",
+                type: "symbol",
+                source: {
+                    type: "geojson",
+                    data: {
+                        type: "FeatureCollection",
+                        features: [
+                            {
+                                type: "Feature",
+                                geometry: {
+                                    type: "Point",
+                                    // 文字在地图中的坐标
+                                    coordinates: [114.30, 30.50],
+                                },
+                            },
+                        ],
+                    },
+                },
+                layout: {
+                    // 文字内容
+                    "text-field": "武汉",
+                    // 字体种类
+                    "text-font": ["黑体", "黑体"],
+                    // 文字大小
+                    "text-size": 24,
+                },
+                paint: {
+                    // 文字颜色
+                    "text-color": "#652e80",
+                },
+            });
+        });
+
+    </script>
+</body>
+
+</html>

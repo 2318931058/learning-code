@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <!-- 
+        需求：
+            1. 使用easeTo方式实现
+            2. 点击地图，地图开始旋转；
+            3. 再次点击地图，地图停止旋转；
+     -->
+</head>
+
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [114.30, 30.50],
+            zoom: 1
+        });
+
+        let isClick = false
+
+        function rotationMap() {
+            let currentZoom = map.getZoom()
+            if(isClick && currentZoom < 3){
+                let center = map.getCenter();
+                center.lng -= 10;
+                map.easeTo({ 
+                    center,
+                    duration: 1000,
+                    easing: n => n
+                });
+            }
+            
+        }
+
+        map.on("click", () => {
+            isClick = !isClick
+            if(isClick){
+                rotationMap()
+            }else{
+                map.stop()
+            }
+            
+        })
+        map.on('moveend',()=>{
+            rotationMap()
+        })
+    </script>
+</body>
+
+</html>

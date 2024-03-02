@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        #mouse-position{
+            position: fixed;
+            bottom: 20px;
+            left: 45%;
+            width: 150px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            background-color: #eee;
+            z-index: 10000;
+        }
+    </style>
+</head>
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'>
+        <!-- 鼠标位置控件 -->
+        <div id="mouse-position"></div>
+    </div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v12', 
+            center: [114.30,30.50], 
+            zoom: 1
+        });
+
+        // 全屏控件
+        map.addControl(new mapboxgl.FullscreenControl());
+
+        // 导航控件
+        const nav = new mapboxgl.NavigationControl({
+            "showCompass": true,    //是否显示指南针按钮，默认为true
+            "showZoom":true     //是否显示缩放按钮，默认为true
+        });
+        map.addControl(nav, 'top-right');   // 控件位置：'top-left', 'top-right','bottom-left' ,'bottom-right'
+
+        // 属性控件
+        map.addControl(new mapboxgl.AttributionControl({
+            //是否折叠属性信息
+            compact:true,
+            //自定义属性信息
+            customAttribution:["gis开发","前端开发"]
+        }));
+
+        // 比例尺控件
+        const scale = new mapboxgl.ScaleControl({
+            unit:'metric|imperial' //默认为公里
+        })
+        map.addControl(scale);
+
+        // 鼠标位置控件
+        map.on('mousemove', function (e) {
+        const {lng,lat} = e.lngLat;
+        document.getElementById('mouse-position').innerHTML = `
+            经度:${lng.toFixed(2)},纬度:${lat.toFixed(2)}
+        `
+        });
+    </script>
+</body>
+</html>

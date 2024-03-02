@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    </div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiemhvbmdkaXNodW1hIiwiYSI6ImNsNXJoYXR5eTI2bGgzZW53d2didWF1c3AifQ.6vOplM2NQc_xnJW3aA5ZBA';
+        const map = new mapboxgl.Map({
+            container: "map",
+            style: "mapbox://styles/mapbox/streets-v12",
+            center: [114.30, 30.50],
+            zoom: 6
+        })
+        // 定义正方形数据
+        var rectangle = {
+            type:'FeatureCollection',
+            features:[
+                {
+                    type:'Feature',
+                    geometry:{
+                        type:'Polygon',
+                        coordinates: [
+                            // 第一个点与最后一个点的坐标要相同
+                            [
+                                [114.30, 30.50], [116, 30.50],
+                                [116, 28], [114.30, 28], [114.30, 30.50]
+                            ]
+                        ]
+                    },
+                    properties: {
+                        id: 1001,
+                        name: "熊大"
+                    }
+                }
+            ]
+        }
+        map.on("style.load", () => {
+            map.addLayer({
+                id:"box-fill",
+                type:"fill",
+                source:{
+                    type:"geojson",
+                    data:rectangle
+                },
+                paint:{
+                    'fill-color':"red",
+                    'fill-opacity':0.5
+                }
+            })
+            map.addLayer({
+                id:"box-stroke",
+                type:"line",
+                source:{
+                    type:"geojson",
+                    data:rectangle
+                },
+                paint:{
+                    'line-color':"#333",
+                    'line-width':3
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>

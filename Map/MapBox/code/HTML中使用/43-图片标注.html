@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [114.30, 30.50],
+            zoom: 10
+        });
+
+        map.on('load', () => {
+            // map.loadImage用于加载图片
+            map.loadImage('./gisData/hhl.png', (error, image) => {
+                if (error) throw error;
+                // map.addImage用于添加图片
+                map.addImage('location', image);
+                map.addLayer({
+                    "id": "points",
+                    "type": "symbol",
+                    "source": {
+                        "type": "geojson",
+                        "data": {
+                            "type": "FeatureCollection",
+                            "features": [{
+                                "type": "Feature",
+                                "geometry": {
+                                    "type": "Point",
+                                    // 图片在地图中的坐标
+                                    "coordinates": [114.30, 30.50]
+                                }
+                            }]
+                        }
+                    },
+                    "layout": {
+                        // 加载图片的id
+                        "icon-image": "location",
+                        "text-font": ["中地数码"],
+                        // 图片大小
+                        "icon-size": 0.1,
+                        // 设置图片偏移
+                        "icon-offset": [0, 0]
+                    }
+                });
+            })
+        })
+    </script>
+</body>
+
+</html>

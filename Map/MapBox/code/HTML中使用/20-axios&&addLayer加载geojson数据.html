@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <!-- 引入axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v12', 
+            center: [114.30,30.50], 
+            zoom: 1
+        });
+
+        let res = null
+        async function getData(){
+            // 发送请求，获取数据
+            res = await axios.get('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json')
+            // 向地图中添加图层（添加到style中）
+            map.addLayer({
+                // 图层id（必要参数）
+                id:'China',
+                // 图层类型（必要参数）：fill表示面，line表示线要素
+                type:'line',
+                // source（必要参数）表示数据类型/来源
+                source:{
+                    type:'geojson',
+                    data:res.data
+                },
+                // paint（可选参数）：绘制图层样式：面的样式包含'fill-color'、'fill-opacity'
+                paint:{
+                    'line-color':'red',
+                    'line-width':3,
+                    'line-opacity':0.5
+                }
+            })
+        }
+
+        map.on('style.load',()=>{
+            getData()  
+        })
+    </script>
+</body>
+</html>

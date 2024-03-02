@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYmFvbWVuZyIsImEiOiJjbG5zb2tjdDYxZDM0MmxzN2R2azJrYm8xIn0.K2P9dn_OJoQgJ6KwULKUvQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v12', 
+            center: [87.6171265, 27.664362], 
+            zoom: 12,
+            pitch:70
+        });
+
+        map.on("style.load", () => {
+            map.addSource('mapbox-dem', {
+                'type': 'raster-dem',
+                url: 'mapbox://mapbox.mapbox-terrain-dem-v1'
+            })
+            // exaggeration可以控制地形的起伏程度
+            map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+        })
+    </script>
+</body>
+</html>

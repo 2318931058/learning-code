@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css' rel='stylesheet' />
+    <!-- 导入 -->
+    <script src="./utils/setCanvas.js"></script>
+</head>
+<body>
+    <div id='map' style='width: 100vw; height: 100vh;'></div>
+
+    </div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmdiZW5jaGFvIiwiYSI6ImNsODU3aGRiODA0Y2UzcHBzZmFlcmdqZ2sifQ.8k59W_pB_Riwe6o-MneRlA'
+        const map = new mapboxgl.Map({
+            container: "map",
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [114.30, 30.50],
+            zoom: 8
+        })
+        // 定义点数据
+        let data = {
+            type: 'FeatureCollection',
+            features: [
+                {
+                    type: "Feature",
+                    geometry: {
+                        type: "Point",
+                        coordinates: [114.30, 30.50]
+                    },
+                    properties: {
+                        name: "武汉"
+                    }
+                }, {
+                    type: "Feature",
+                    geometry: {
+                        type: "Point",
+                        coordinates: [116, 30.50]
+                    },
+                    properties: {
+                        name: "苏州"
+                    }
+                }
+            ]
+        }
+        map.on("style.load", () => {
+            // 要设置map.addImage
+            map.addImage("canva-style", setCanvas(map), {})
+            map.addSource("canva-source", {
+                type: "geojson",
+                data
+            })
+            map.addLayer({
+                id: "canva-layer",
+                source: "canva-source",
+                // 数据类型变为symbol
+                type: "symbol",
+                layout: {
+                    'icon-image': 'canva-style'
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
