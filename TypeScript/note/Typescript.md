@@ -4,7 +4,7 @@
 
 ```
 // 方式一
-1. 安装ts：pnpm i =g typescript
+1. 安装ts：pnpm i -g typescript
 2. 查看ts版本：tsc -v
 3. 安装ts-node以在node中运行ts文件：pnpm i -g ts-node
 4. 使用：新建.ts文件书写代码，在node中通过'ts-node 文件名'运行文件
@@ -26,5 +26,7 @@ tsc --init
 6. 灵活性高：尽管ts时一门强类型检查语言，但也体统了any类型和as any类型，这提高了ts的灵活性；
 ```
 
-
+疑问：
+    1. Object和any的区别
+    2. any和unknown的区别
 
