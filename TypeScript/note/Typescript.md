@@ -29,4 +29,11 @@ tsc --init
 疑问：
     1. Object和any的区别
     2. any和unknown的区别
+    3. 接口和type定义的区别：
+        * type可以定义任意类型数据，而接口只能定义对象
+        * 接口可以继承，
+    4. 谈谈你对泛型的理解
+    5. 谈谈你对void的理解
+    6. 哪些类型可以接受undefined类型的赋值：undefined、any、unknown
+    7. 哪些类型可以接收null类型的赋值：null、any、unknown
 

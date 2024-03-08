@@ -1,3 +1,5 @@
+// 使用never类型就是为了避免未来扩展新的类型没有对应类型的实现，写出绝对安全的代码
+
 // type dataFlow = string | number
 type dataFlow = string | number | boolean
 

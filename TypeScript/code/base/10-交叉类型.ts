@@ -9,3 +9,5 @@ let Obj3 : Obj1 & Obj2 = {
     username: 'peiqi',
     age: 18
 } 
+
+export {}
