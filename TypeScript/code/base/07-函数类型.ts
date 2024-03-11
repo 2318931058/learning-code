@@ -27,7 +27,7 @@ console.log(res3);
 
 // 4. 同时指定参数和返回值的类型------具名函数方式
 
-const getRes2: (num1: number, num2: number) => number = function(num1, num2) {
+const getRes2: (num1: number, num2: number) => number = function (num1, num2) {
   return num1 + num2;
 };
 const res4 = getRes2(20, 39);
@@ -44,10 +44,20 @@ mySlice(1);
 // ..........................................................................
 
 // 6. rest参数
-function Info(name: string, age: number, ...rest: any){
-  console.log(name, age, rest)
+function Info(name: string, age: number, ...rest: any) {
+  console.log(name, age, rest);
 }
-Info('peiqi', 18, 'peideluo')
+Info("peiqi", 18, "peideluo");
+
+// ..........................................................................
+
+type deType = { username: string; age: number; love: boolean };
+// 函数解构既可以解构全部参数，也可以只解构部分参数，但必须传递所有参数
+function deconstruct({ username, age }: deType) {
+  console.log(username, age);
+}
+// 必须传递所有参数
+deconstruct({ username: "peiqi", age: 18, love: false });
 
 // ..........................................................................
 
