@@ -146,11 +146,11 @@ console.log(newperq);
 
 // ............................................................................................
 
-// 6. 类的可见性
+// 6. 类的可见性和只读属性（只能对属性使用，不能对方法使用；只读属性必须添加类型注解，否则表示字面量类型；）
 class Clothes {
-  public name: string; // public任意地方均可访问(默认)
-  protected time: string; // 自身和子类可访问，实例对象也不行
-  private quantity: string; // 仅自身可访问，子类和实例对象也不行
+  public name: string; // 任意地方均可访问(默认)
+  protected time: string; // 类自身和子类可访问，实例对象也不行
+  private quantity: string; // 仅类自身可访问，子类和实例对象也不行
   // readonly只读修饰符：除了默认值和构造函数中修改属性，其余地方均不可修改
   readonly isPurchase: boolean;
 

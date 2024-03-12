@@ -1,6 +1,6 @@
 // 使用：在一行代码中指定对象的多个属性时必须使用分号分隔，但如果一行只指定一个属性类型就不需要分号分隔。
 const person1: { 
-  // 问好表示可选参数
+  // 问号表示可选参数
   name?: string
   age: number
   greet(name: string): void
