@@ -44,14 +44,14 @@ class Pets {
     if (val > 10 && val < 120) {
       this.age = val;
     } else {
-      throw new Error("年龄过大或过小");
+      // throw new Error("年龄过大或过小");
     }
   }
 }
 
 let p = new Pets("dog");
 p.petAge = 201;
-console.log(p.petAge);
+// console.log(p.petAge);
 
 // ............................................................................................
 
@@ -178,6 +178,26 @@ t1.comments();
 // console.log(t1.time)   // 实例对象无法访问受保护的属性/方法
 console.log(t1.name);
 // t1.isPurchase = false  // 只读属性只有在构造函数中才能修改
+
+// ............................................................................................
+
+// keyof属性：获取类、对象或接口类型的所有属性名组成的联合类型
+class allkeys {
+  username: string = 'peiqi'
+  age: number = 18
+  isMan: boolean = true
+}
+type allkeysType = keyof allkeys
+let username: allkeysType = "username"
+let age: allkeysType = "age"
+let isMan: allkeysType = "isMan"
+console.log('username, age, isMan：', username, age, isMan)
+
+// ...........................................................
+
+// 举例：用泛型和泛型约束获取类中所有属性名组成的类型
+type allTypes<T> = T extends any?T:never
+type keys = allTypes<keyof allkeys>
 
 // ............................................................................................
 
