@@ -14,13 +14,13 @@
 
 // 结构化类型系统:成员多的可以赋值给类型少的(对象的兼容)
 class Person1 {
-  x: number;
-  y: number;
+  x: number = 1
+  y: number = 2
 }
 class Person2 {
-  x: number;
-  y: number;
-  z: number;
+  x: number = 3
+  y: number = 4
+  z: number = 5
 }
 // 解释：Person2拥有Person1的全部属性，所以Person2可以给Person1赋值，但反之不行
 const p1: Person1 = new Person2();
@@ -63,8 +63,8 @@ p3 = p5;
 
 // class和接口之间可以相互兼容
 class Person6 {
-  x: number;
-  y: number;
+  x: number = 6
+  y: number = 7
 }
 interface Person7 {
   x: number;
