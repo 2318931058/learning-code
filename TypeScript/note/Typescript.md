@@ -12,16 +12,6 @@
 4. 使用：新建.ts文件书写代码，在node中通过'ts-node 文件名'运行文件
 ```
 
-### 疑问
-
-1. ts和js的区别
-2. Object和any的区别
-3. any和unknown的区别
-4. 谈谈你对泛型的理解
-5. 谈谈你对void的理解
-6. 哪些类型可以接受undefined类型的赋值：undefined、any、unknown
-7. 哪些类型可以接收null类型的赋值：null、any、unknown
-
 ## JS中的类型
 
 ### 数值型
