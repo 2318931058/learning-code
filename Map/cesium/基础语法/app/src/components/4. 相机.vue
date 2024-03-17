@@ -11,7 +11,7 @@ onMounted(() => {
   // camera.setView方法用于快速切换相机的位置(目的地)destination与方向orientation
   // viewer.camera.setView({
   //   destination:position, // 可以用笛卡尔坐标
-  //   orientation:{       //默认放行（0，-90，0）
+  //   orientation:{       //默认方向（0，-90，0）
   //     heading:Cesium.Math.toRadians(0),   // heading为偏航角y，摇头
   //     pitch:Cesium.Math.toRadians(-90),   // pitch俯仰角x，点头
   //     roll:Cesium.Math.toRadians(0)   // roll旋转角z，歪头
