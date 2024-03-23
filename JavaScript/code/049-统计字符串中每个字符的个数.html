@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计字符串中每个字符的个数</title>
+</head>
+<body>
+    <script>
+        const str = 'aaabbbccccbbbaaaAAADDDEEE'
+
+        function getNumber(str){
+            let obj = {}
+            for(i=0; i<str.length; i++) {
+                let key = str[i]
+                if(!obj[key]){
+                    obj[key] = 1
+                }else {
+                    obj[key] += 1
+                }
+            }
+            return obj
+        }
+
+        let res = getNumber(str)
+        console.log(res)
+    </script>
+</body>
+</html>

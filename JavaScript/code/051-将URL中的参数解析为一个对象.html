@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>将URL中的参数解析为一个对象</title>
+</head>
+<body>
+    <script>
+        var url = 'http://witmax.cn/index.php?key0=0&key1=key1&key2=key2'
+
+        function get(value){
+            let obj = {}
+            let url = value.split('?')
+            let arr = url[1].split('&')
+            arr.forEach(item => {
+                var ans = item.split('=')
+                obj[ans[0]] = ans[1]
+            })
+            return obj
+        }
+        let res = get(url)
+        console.log(res)
+    </script>
+</body>
+</html>

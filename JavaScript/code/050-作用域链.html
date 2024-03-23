@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作用域链</title>
+    <!-- 
+        1. 作用域是变量的可用性范围，可分为全局作用域和局部作用域。
+        2. 作用域链本质上是底层变量的查找机制。当函数执行时，会先在当前作用域中寻找变量；若当前作用域中没有需要的变量，就会去最近一级的父作用域中查找；就这样一层一层地查找形成的链状结构就是作用域链。
+     -->
+</head>
+
+<body>
+    <script>
+        var str = 'peiqi'
+
+        function getRes(str) {
+            console.log(str)
+            //优先级：变量 > 函数 > 参数 > 变量提升
+            function str() {
+                console.log('anqi')
+            }
+            var str = 'peideluo'
+            
+        }
+
+        getRes('value')
+
+        // 练习题1
+        var bar = 1
+        function test1() {
+            console.log(bar)    // undefined
+            var bar = 2
+            console.log(bar)    // 2
+        }
+        test1()
+
+        // 练习题2
+        var text2 = function(){
+            console.log(1)
+        }
+        function text2(){
+            console.log(2)
+        }
+        text2()       // 1
+
+        // 练习题3
+        function text3() {
+            var b = 1
+            function a() {
+                console.log(b)
+                var b = 2
+                console.log(b)
+            }
+            a()
+            console.log(b)
+        }
+        text3() // undefined 2 1
+
+        // 练习题4：goodbuy jack
+        var name = 'world';
+        (function (){
+            if(typeof name === 'undefined'){
+                var name = 'jack'
+                console.log(`goodbuy ${name}`)
+            }else {
+                console.log(`hello ${name}`)
+            }
+        })()
+
+        // 练习题5
+        var f = true
+        if(f === true) {
+            var a = 10
+        }
+        function fn(){
+            var b = 20
+            c = 30
+        }
+        fn()
+        console.log(a)      // 10
+        // console.log(b)   // 报错
+        console.log(c)      // 30
+    </script>
+</body>
+
+</html>

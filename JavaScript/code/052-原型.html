@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原型</title>
+    <!-- 
+        1. 原型：每个函数身上都有prototype属性，这个属性就是原型对象。原型身上可以挂载一些变量和方法供全局使用。
+        2. 原型链：每个对象身上都有__proto__属性，原型对象也是对象，也有__proto__属性，指向原型对象的原型对象。就这样一层一层地形成的链状结构就是原型链。
+     -->
+</head>
+
+<body>
+    <script>
+        // 练习一
+        function Hero() {
+            this.name = 'peiqi'
+            this.sayHi = function(){
+                console.log('hello, peideluo')
+            }
+        }
+        Hero.prototype.name = 'anqi'
+        Hero.prototype.sayHi = function() {
+            console.log('hello, fengxiu')
+        }
+
+        // 顺序：先查本身的，再查prototype上的
+        var hero = new Hero()
+        console.log(hero.name)       // peiqi
+        hero.sayHi()                 // hello, peideluo
+
+        // 练习二
+        function Foo(){
+            getName = function(){
+                console.log(1)
+            }
+            return this
+        }
+        Foo.getName = function(){
+            console.log(2)
+        }
+        Foo.prototype.getName = function(){
+            console.log(3)
+        }
+        var getName = function(){
+            console.log(4)
+        }
+        function getName(){
+            console.log(5)
+        }
+
+        Foo.getName()           // 2
+        getName()               // 4
+        Foo().getName()         // 1
+        getName()               // 1
+        new Foo().getName()     // 3
+    </script>
+</body>
+
+</html>

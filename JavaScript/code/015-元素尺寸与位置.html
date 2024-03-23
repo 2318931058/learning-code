@@ -63,7 +63,7 @@
         nav.style.top = `${-foods.offsetTop}px`
       }
 
-      console.log('滚轮距离顶部距离', document.documentElement.scrollTop)
+      console.log('滚轮距离顶部距离', document.documentElement.scrollTop || document.body.scrollTop)
       console.log('DOM对象距离顶部距离', foods.offsetTop)
       console.log('只包含padding的dom对象的可见部分的高度', foods.clientHeight)
       console.log('包含所有的dom对象自身的高度', foods.offsetHeight)

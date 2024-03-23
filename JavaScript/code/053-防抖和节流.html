@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防抖和节流</title>
+    <style>
+        .box1,
+        .box2 {
+            width: 1000px;
+            height: 1000px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <script>
+        // 防抖：单位之间内，多次触发事件，只执行最后一次，如搜索框输入。可以通过定时器和lodash库中的debounce方法实现。
+        // function showTop() {
+        //     var scrollTop = document.body.scrollTop || document.documentElement.scrollTop
+        //     console.log(scrollTop)
+        // }
+        // function debounce(fn, delay) {
+        //     let timer = null
+        //     return function () {
+        //         if(timer){
+        //             clearTimeout(timer)
+        //         }
+        //         timer = setTimeout(fn, 200)
+        //     }
+        // }
+
+        // window.onscroll = debounce(showTop,200)
+
+
+        // 节流：单位之间内，多次触发事件，只执行第一次，如resize事件、scroll事件、鼠标定位。可以通过定时器和lodash库中的throttle方法实现。
+        function showTop() {
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop
+            console.log(scrollTop)
+        }
+        function throttle(fn, delay){
+            let valid = true
+            return function(){
+                if(!valid){
+                    return false
+                }
+                valid = false
+                setTimeout(()=>{
+                    fn()
+                    valid = true
+                }, delay)
+            }
+        }
+        window.onscroll = throttle(showTop,200)
+
+    </script>
+</body>
+
+</html>
